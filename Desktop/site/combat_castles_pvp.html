@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>⚔ Castillos de Combate - Enfoque PvP</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700;900&family=Cinzel:wght@400;600;700&family=Crimson+Pro:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --gold: #d4a520;
+    --gold-light: #f0c84a;
+    --gold-dim: #8a6a10;
+    --crimson: #8b1a1a;
+    --crimson-light: #c0392b;
+    --dark: #0d0a06;
+    --dark2: #1a1208;
+    --dark3: #241a0c;
+    --stone: #3a3020;
+    --text: #e8dcc0;
+    --text-dim: #a89870;
+  }
+
+  body {
+    background: var(--dark);
+    font-family: 'Crimson Pro', serif;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+  }
+
+  .poster {
+    width: 900px;
+    min-height: 1200px;
+    background: 
+      radial-gradient(ellipse at 50% 0%, #3d2a06 0%, transparent 60%),
+      radial-gradient(ellipse at 0% 50%, #1e0f0f 0%, transparent 50%),
+      radial-gradient(ellipse at 100% 50%, #1e0f0f 0%, transparent 50%),
+      linear-gradient(180deg, #1a1208 0%, #0d0a06 40%, #0a0804 100%);
+    border: 3px solid var(--gold-dim);
+    box-shadow:
+      0 0 0 1px #0d0a06,
+      0 0 0 8px #1a1208,
+      0 0 0 9px var(--gold-dim),
+      0 0 60px rgba(212,165,32,0.15),
+      inset 0 0 80px rgba(0,0,0,0.5);
+    position: relative;
+    overflow: hidden;
+    padding: 50px 48px 60px;
+  }
+
+  /* Background texture lines */
+  .poster::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+      repeating-linear-gradient(0deg, transparent, transparent 59px, rgba(212,165,32,0.04) 60px),
+      repeating-linear-gradient(90deg, transparent, transparent 59px, rgba(212,165,32,0.03) 60px);
+    pointer-events: none;
+  }
+
+  /* Corner ornaments */
+  .corner {
+    position: absolute;
+    width: 80px;
+    height: 80px;
+  }
+  .corner svg { width: 100%; height: 100%; }
+  .corner--tl { top: 14px; left: 14px; }
+  .corner--tr { top: 14px; right: 14px; transform: scaleX(-1); }
+  .corner--bl { bottom: 14px; left: 14px; transform: scaleY(-1); }
+  .corner--br { bottom: 14px; right: 14px; transform: scale(-1); }
+
+  /* Header */
+  .header { text-align: center; margin-bottom: 40px; position: relative; }
+
+  .title-icon {
+    font-size: 2.8rem;
+    display: block;
+    margin-bottom: 8px;
+    filter: drop-shadow(0 0 12px rgba(212,165,32,0.6));
+  }
+
+  .title-main {
+    font-family: 'Cinzel Decorative', serif;
+    font-size: 3.2rem;
+    font-weight: 900;
+    color: var(--gold-light);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    line-height: 1.1;
+    text-shadow:
+      0 0 20px rgba(212,165,32,0.5),
+      0 2px 4px rgba(0,0,0,0.8),
+      0 0 60px rgba(212,165,32,0.2);
+    display: block;
+  }
+
+  .title-sub {
+    font-family: 'Cinzel', serif;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--crimson-light);
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    margin-top: 10px;
+    display: block;
+    text-shadow: 0 0 20px rgba(192,57,43,0.6);
+  }
+
+  .divider {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin: 18px 0;
+  }
+  .divider-line {
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--gold-dim), var(--gold), var(--gold-dim), transparent);
+  }
+  .divider-gem {
+    width: 10px; height: 10px;
+    background: var(--gold);
+    transform: rotate(45deg);
+    box-shadow: 0 0 8px var(--gold);
+    flex-shrink: 0;
+  }
+
+  /* Table */
+  table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    position: relative;
+  }
+
+  thead tr {
+    background: linear-gradient(180deg, #2d1f06 0%, #1e1506 100%);
+  }
+
+  th {
+    font-family: 'Cinzel', serif;
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--gold);
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    padding: 14px 10px;
+    border-top: 2px solid var(--gold-dim);
+    border-bottom: 2px solid var(--gold-dim);
+    text-align: center;
+    white-space: nowrap;
+  }
+  th:first-child {
+    text-align: left;
+    padding-left: 20px;
+    border-left: 2px solid var(--gold-dim);
+    border-radius: 4px 0 0 0;
+  }
+  th:last-child {
+    border-right: 2px solid var(--gold-dim);
+    border-radius: 0 4px 0 0;
+  }
+
+  td {
+    padding: 13px 10px;
+    border-bottom: 1px solid rgba(212,165,32,0.12);
+    text-align: center;
+    font-size: 1.05rem;
+    color: var(--text);
+    transition: all 0.15s;
+    vertical-align: middle;
+  }
+  td:first-child {
+    text-align: left;
+    padding-left: 20px;
+    border-left: 1px solid rgba(212,165,32,0.15);
+    font-size: 1rem;
+    color: var(--text);
+  }
+  td:last-child {
+    border-right: 1px solid rgba(212,165,32,0.15);
+  }
+
+  tbody tr { background: transparent; }
+  tbody tr:nth-child(odd) { background: rgba(212,165,32,0.025); }
+  tbody tr:hover td { background: rgba(212,165,32,0.07) !important; color: var(--gold-light); }
+  tbody tr:hover td:first-child { color: #fff; }
+
+  /* Skill icon + name */
+  .skill-name { display: flex; align-items: center; gap: 12px; }
+  .skill-icon { font-size: 1.3rem; flex-shrink: 0; width: 28px; text-align: center; }
+  .skill-text { display: flex; flex-direction: column; }
+  .skill-label { font-family: 'Cinzel', serif; font-size: 0.88rem; font-weight: 600; color: var(--text); line-height: 1.2; }
+  .skill-effect { font-size: 0.78rem; color: var(--text-dim); font-style: italic; }
+
+  /* Level badges */
+  .lvl {
+    display: inline-block;
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    font-size: 1rem;
+    min-width: 52px;
+    padding: 4px 8px;
+    border-radius: 3px;
+    transition: all 0.15s;
+  }
+  .lvl-1 { color: #a89870; }
+  .lvl-2 { color: #c8b060; }
+  .lvl-3 { color: #d4a520; }
+  .lvl-4 { color: #e8c040; text-shadow: 0 0 8px rgba(232,192,64,0.4); }
+  .lvl-5 { color: #fff5a0; text-shadow: 0 0 12px rgba(255,220,80,0.7), 0 0 24px rgba(212,165,32,0.4); font-size: 1.05rem; }
+
+  /* Last row border */
+  tbody tr:last-child td { border-bottom: 2px solid var(--gold-dim); }
+  tbody tr:last-child td:first-child { border-radius: 0 0 0 4px; }
+  tbody tr:last-child td:last-child { border-radius: 0 0 4px 0; }
+
+  /* Notes */
+  .notes-section {
+    margin-top: 30px;
+    padding: 20px 24px;
+    background: linear-gradient(135deg, rgba(139,26,26,0.15) 0%, rgba(0,0,0,0.3) 100%);
+    border: 1px solid rgba(139,26,26,0.4);
+    border-left: 4px solid var(--crimson-light);
+    border-radius: 4px;
+    position: relative;
+  }
+  .notes-title {
+    font-family: 'Cinzel', serif;
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: var(--crimson-light);
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .note-item {
+    font-size: 0.95rem;
+    color: var(--text-dim);
+    line-height: 1.6;
+    padding: 3px 0;
+    padding-left: 20px;
+    position: relative;
+  }
+  .note-item::before {
+    content: '⚠';
+    position: absolute;
+    left: 0;
+    color: var(--gold-dim);
+    font-size: 0.8rem;
+  }
+  .note-item strong { color: var(--gold); }
+
+  /* Footer */
+  .footer {
+    margin-top: 30px;
+    text-align: center;
+  }
+  .footer-text {
+    font-family: 'Cinzel', serif;
+    font-size: 0.65rem;
+    color: var(--gold-dim);
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+  }
+</style>
+</head>
+<body>
+<div class="poster">
+
+  <!-- Corner ornaments -->
+  <div class="corner corner--tl">
+    <svg viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M4 4 L4 40 M4 4 L40 4" stroke="#d4a520" stroke-width="2" opacity="0.8"/>
+      <path d="M4 4 L20 20" stroke="#d4a520" stroke-width="1" opacity="0.4"/>
+      <rect x="2" y="2" width="8" height="8" fill="#d4a520" opacity="0.6"/>
+      <circle cx="40" cy="4" r="2" fill="#d4a520" opacity="0.5"/>
+      <circle cx="4" cy="40" r="2" fill="#d4a520" opacity="0.5"/>
+      <path d="M14 4 Q14 14 4 14" stroke="#d4a520" stroke-width="1" fill="none" opacity="0.3"/>
+    </svg>
+  </div>
+  <div class="corner corner--tr">
+    <svg viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M4 4 L4 40 M4 4 L40 4" stroke="#d4a520" stroke-width="2" opacity="0.8"/>
+      <path d="M4 4 L20 20" stroke="#d4a520" stroke-width="1" opacity="0.4"/>
+      <rect x="2" y="2" width="8" height="8" fill="#d4a520" opacity="0.6"/>
+      <circle cx="40" cy="4" r="2" fill="#d4a520" opacity="0.5"/>
+      <circle cx="4" cy="40" r="2" fill="#d4a520" opacity="0.5"/>
+      <path d="M14 4 Q14 14 4 14" stroke="#d4a520" stroke-width="1" fill="none" opacity="0.3"/>
+    </svg>
+  </div>
+  <div class="corner corner--bl">
+    <svg viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M4 4 L4 40 M4 4 L40 4" stroke="#d4a520" stroke-width="2" opacity="0.8"/>
+      <path d="M4 4 L20 20" stroke="#d4a520" stroke-width="1" opacity="0.4"/>
+      <rect x="2" y="2" width="8" height="8" fill="#d4a520" opacity="0.6"/>
+      <circle cx="40" cy="4" r="2" fill="#d4a520" opacity="0.5"/>
+      <circle cx="4" cy="40" r="2" fill="#d4a520" opacity="0.5"/>
+      <path d="M14 4 Q14 14 4 14" stroke="#d4a520" stroke-width="1" fill="none" opacity="0.3"/>
+    </svg>
+  </div>
+  <div class="corner corner--br">
+    <svg viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M4 4 L4 40 M4 4 L40 4" stroke="#d4a520" stroke-width="2" opacity="0.8"/>
+      <path d="M4 4 L20 20" stroke="#d4a520" stroke-width="1" opacity="0.4"/>
+      <rect x="2" y="2" width="8" height="8" fill="#d4a520" opacity="0.6"/>
+      <circle cx="40" cy="4" r="2" fill="#d4a520" opacity="0.5"/>
+      <circle cx="4" cy="40" r="2" fill="#d4a520" opacity="0.5"/>
+      <path d="M14 4 Q14 14 4 14" stroke="#d4a520" stroke-width="1" fill="none" opacity="0.3"/>
+    </svg>
+  </div>
+
+  <!-- Header -->
+  <div class="header">
+    <span class="title-icon">⚔</span>
+    <span class="title-main">Castillos de Combate</span>
+    <div class="divider"><div class="divider-line"></div><div class="divider-gem"></div><div class="divider-line"></div></div>
+    <span class="title-sub">🎯 Enfoque PvP — Contra otros jugadores</span>
+    <div class="divider"><div class="divider-line"></div><div class="divider-gem"></div><div class="divider-line"></div></div>
+  </div>
+
+  <!-- Table -->
+  <table>
+    <thead>
+      <tr>
+        <th>Habilidad</th>
+        <th>Niv. 1</th>
+        <th>Niv. 2</th>
+        <th>Niv. 3</th>
+        <th>Niv. 4</th>
+        <th>Niv. 5</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><div class="skill-name"><span class="skill-icon">🧪</span><div class="skill-text"><span class="skill-label">Cuerno de Polvora</span><span class="skill-effect">Daño de Barco PvE (NPC & Torres) & PvP(jugadores)</span></div></div></td>
+        <td><span class="lvl lvl-1">+1%</span></td>
+        <td><span class="lvl lvl-2">+2%</span></td>
+        <td><span class="lvl lvl-3">+3%</span></td>
+        <td><span class="lvl lvl-4">+4%</span></td>
+        <td><span class="lvl lvl-5">+5%</span></td>
+      </tr>
+      <tr>
+        <td><div class="skill-name"><span class="skill-icon">📖</span><div class="skill-text"><span class="skill-label">Experto en War</span><span class="skill-effect">Daño PvP</span></div></div></td>
+        <td><span class="lvl lvl-1">+1%</span></td>
+        <td><span class="lvl lvl-2">+2%</span></td>
+        <td><span class="lvl lvl-3">+3%</span></td>
+        <td><span class="lvl lvl-4">+4%</span></td>
+        <td><span class="lvl lvl-5">+6%</span></td>
+      </tr>
+      <tr>
+        <td><div class="skill-name"><span class="skill-icon">⚔️</span><div class="skill-text"><span class="skill-label">Libro de Combate</span><span class="skill-effect">Probabilidad de Golpe Crítico</span></div></div></td>
+        <td><span class="lvl lvl-1">+2%</span></td>
+        <td><span class="lvl lvl-2">+4%</span></td>
+        <td><span class="lvl lvl-3">+6%</span></td>
+        <td><span class="lvl lvl-4">+8%</span></td>
+        <td><span class="lvl lvl-5">+12%</span></td>
+      </tr>
+      <tr>
+        <td><div class="skill-name"><span class="skill-icon">🎖️</span><div class="skill-text"><span class="skill-label">LLuvia de Metralla </span><span class="skill-effect">Daño Crítico</span></div></div></td>
+        <td><span class="lvl lvl-1">+2%</span></td>
+        <td><span class="lvl lvl-2">+4%</span></td>
+        <td><span class="lvl lvl-3">+6%</span></td>
+        <td><span class="lvl lvl-4">+9%</span></td>
+        <td><span class="lvl lvl-5">+12%</span></td>
+      </tr>
+      <tr>
+        <td><div class="skill-name"><span class="skill-icon">🛡️</span><div class="skill-text"><span class="skill-label">Casco Reforzado</span><span class="skill-effect">Puntos de Vida del Barco</span></div></div></td>
+        <td><span class="lvl lvl-1">+2k</span></td>
+        <td><span class="lvl lvl-2">+6k</span></td>
+        <td><span class="lvl lvl-3">+10k</span></td>
+        <td><span class="lvl lvl-4">+15k</span></td>
+        <td><span class="lvl lvl-5">+21k</span></td>
+      </tr>
+      <tr>
+        <td><div class="skill-name"><span class="skill-icon">⛵</span><div class="skill-text"><span class="skill-label">Casco Adamantina</span><span class="skill-effect">Reducción de Daño</span></div></div></td>
+        <td><span class="lvl lvl-1">+2%</span></td>
+        <td><span class="lvl lvl-2">+4%</span></td>
+        <td><span class="lvl lvl-3">+6%</span></td>
+        <td><span class="lvl lvl-4">+8%</span></td>
+        <td><span class="lvl lvl-5">+12%</span></td>
+      </tr>
+      <tr>
+        <td><div class="skill-name"><span class="skill-icon">🌐</span><div class="skill-text"><span class="skill-label">Cuerno de Polvora</span><span class="skill-effect">Probabilidad de Acierto</span></div></div></td>
+        <td><span class="lvl lvl-1">+1%</span></td>
+        <td><span class="lvl lvl-2">+2%</span></td>
+        <td><span class="lvl lvl-3">+3%</span></td>
+        <td><span class="lvl lvl-4">+4%</span></td>
+        <td><span class="lvl lvl-5">+7%</span></td>
+      </tr>
+      <tr>
+        <td><div class="skill-name"><span class="skill-icon">🧭</span><div class="skill-text"><span class="skill-label">Mejora Placas</span><span class="skill-effect">Evasión de Críticos</span></div></div></td>
+        <td><span class="lvl lvl-1">+10%</span></td>
+        <td><span class="lvl lvl-2">+15%</span></td>
+        <td><span class="lvl lvl-3">+20%</span></td>
+        <td><span class="lvl lvl-4">+25%</span></td>
+        <td><span class="lvl lvl-5">+35%</span></td>
+      </tr>
+      <tr>
+        <td><div class="skill-name"><span class="skill-icon">🗡️</span><div class="skill-text"><span class="skill-label">Timonel Fortificado</span><span class="skill-effect">Reducción de Daño Crítico</span></div></div></td>
+        <td><span class="lvl lvl-1">+4%</span></td>
+        <td><span class="lvl lvl-2">+6%</span></td>
+        <td><span class="lvl lvl-3">+8%</span></td>
+        <td><span class="lvl lvl-4">+10%</span></td>
+        <td><span class="lvl lvl-5">+14%</span></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- Notes -->
+  <div class="notes-section">
+    <div class="notes-title">⚠ Notas Importantes</div>
+    <div class="note-item">El <strong>Casco Reforzado Niv. 5</strong> aplica una penalización de <strong> -1.2 de Velocidad</strong> al barco.</div>
+    <div class="note-item">El <strong>Timonel Fortificado en Niv. 5</strong> también otorga <strong>+4% de reducción al daño normal</strong> adicional.</div>
+  </div>
+
+  <!-- Footer -->
+  <div class="footer">
+    <div class="divider" style="margin-bottom:14px;"><div class="divider-line"></div><div class="divider-gem"></div><div class="divider-line"></div></div>
+    <p class="footer-text">⚔ &nbsp; Tabla de Referencia de Combate &nbsp; • &nbsp; Construye tu Legado &nbsp; ⚔</p>
+    <p class="footer-text">⚔ &nbsp; Todos los Derechos reservados Sir-ClanCHI 2026 &nbsp; ⚔</p>
+  </div>
+</div>
+</body>
+</html>
