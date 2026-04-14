@@ -67,12 +67,12 @@
       <span class="title">Niveles y Misiones</span>
       <div class="subtitle">5 misiones por nivel + prueba pirata</div>
     </header>
-    <p class="note">Pasa el mouse sobre cada nivel para ver 5 misiones como nodos y la prueba pirata final. Dejo todo listo para que el clan complete nombres, recompensas y requisitos.</p>
+    <p class="note">Pasa el mouse sobre cada nivel para ver 5 misiones como nodos y la prueba pirata final. Dejo todo listo para que el clan complete nombres, recompensas y requisitos. Maximo actual: nivel 14.</p>
     <section class="levels" id="levels"></section>
     <div class="footer">Wiki Seefight 3D • Niveles y misiones</div>
   </div>
   <script>
-    const levels = Array.from({ length: 21 }, (_, i) => i + 1);
+    const levels = Array.from({ length: 14 }, (_, i) => i + 1);
     const root = document.getElementById('levels');
     root.innerHTML = levels.map((level) => `
       <article class="level-card">
