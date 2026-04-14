@@ -3,37 +3,157 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>🎉 Eventos - Wiki Seefight 3D</title>
+<title>⚠ Eventos - Wiki Seefight 3D</title>
 <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700;900&family=Cinzel:wght@400;600;700&family=Crimson+Pro:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   :root {
     --gold: #ffd86a;
-    --gold-light: #fff4c2;
+    --gold-light: #fff6cc;
     --gold-dim: #caa34a;
     --cyan: #8be8ff;
+    --violet: #b7a5ff;
+    --red: #ff7070;
+    --red-soft: rgba(255,112,112,0.12);
     --dark: #0b1016;
     --text: #f5f8fc;
     --text-dim: #d2dbe6;
   }
   body {
     background:
-      radial-gradient(circle at top, rgba(255,216,106,0.10), transparent 36%),
+      radial-gradient(circle at top, rgba(255,216,106,0.12), transparent 34%),
+      radial-gradient(circle at 20% 18%, rgba(139,232,255,0.10), transparent 26%),
       linear-gradient(180deg, #0f1620 0%, #090d12 100%);
     font-family: 'Crimson Pro', serif;
     min-height: 100vh;
     padding: 22px;
     color: var(--text);
   }
-  .page { max-width: 980px; margin: 0 auto; background: rgba(8,12,18,0.44); border: 3px solid rgba(255,216,106,0.45); border-radius: 18px; padding: 24px 20px; backdrop-filter: blur(8px); box-shadow: 0 16px 60px rgba(0,0,0,0.35); }
+  .page {
+    max-width: 1180px;
+    margin: 0 auto;
+    background: rgba(8,12,18,0.50);
+    border: 3px solid rgba(255,216,106,0.48);
+    border-radius: 18px;
+    padding: 24px 20px 22px;
+    backdrop-filter: blur(8px);
+    box-shadow: 0 16px 60px rgba(0,0,0,0.35);
+  }
   .topbar { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; margin-bottom: 22px; }
-  .btn { display: inline-flex; text-decoration: none; color: var(--gold-light); border: 1px solid rgba(255,216,106,0.52); background: rgba(10,14,20,0.9); padding: 10px 14px; border-radius: 6px; font-family: 'Cinzel', serif; font-size: 0.74rem; letter-spacing: 0.16em; text-transform: uppercase; }
-  .header { text-align: center; margin-bottom: 24px; }
-  .icon { font-size: 2.6rem; display: block; margin-bottom: 8px; }
-  .title { font-family: 'Cinzel Decorative', serif; font-size: 2.2rem; color: var(--gold-light); letter-spacing: 0.08em; text-transform: uppercase; display: block; text-shadow: 0 0 22px rgba(255,216,106,0.22); }
-  .note { color: #e3ebf5; text-align: center; line-height: 1.6; }
-  .blank { margin-top: 20px; min-height: 520px; border: 1px dashed rgba(139,232,255,0.34); border-radius: 10px; background: rgba(255,255,255,0.06); }
-  @media (max-width: 700px) { body { padding: 16px; } .title { font-size: 1.7rem; } }
+  .btn {
+    display: inline-flex; text-decoration: none; color: var(--gold-light);
+    border: 1px solid rgba(255,216,106,0.52); background: rgba(10,14,20,0.92);
+    padding: 10px 14px; border-radius: 6px; font-family: 'Cinzel', serif; font-size: 0.74rem;
+    letter-spacing: 0.16em; text-transform: uppercase;
+  }
+  .header { text-align: center; margin-bottom: 18px; }
+  .icon { font-size: 2.8rem; display: block; margin-bottom: 8px; filter: drop-shadow(0 0 16px rgba(255,112,112,0.45)); }
+  .title {
+    font-family: 'Cinzel Decorative', serif; font-size: 2.35rem; color: var(--gold-light);
+    letter-spacing: 0.08em; text-transform: uppercase; display: block;
+    text-shadow: 0 0 24px rgba(255,216,106,0.22);
+  }
+  .subtitle {
+    margin-top: 10px; font-family: 'Cinzel', serif; font-size: 0.78rem;
+    letter-spacing: 0.30em; text-transform: uppercase; color: #b7c3d4;
+  }
+  .alert {
+    border: 1px solid rgba(255,112,112,0.32);
+    background: linear-gradient(180deg, rgba(255,112,112,0.12), rgba(255,112,112,0.05));
+    border-radius: 12px;
+    padding: 16px;
+    margin-bottom: 14px;
+  }
+  .alert-head {
+    display: flex; flex-wrap: wrap; align-items: center; gap: 10px;
+    font-family: 'Cinzel', serif; letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--gold-light); margin-bottom: 10px;
+  }
+  .pill {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 6px 10px; border-radius: 999px;
+    background: rgba(255,112,112,0.14); border: 1px solid rgba(255,112,112,0.30);
+    color: #fff; font-size: 0.68rem;
+  }
+  .lead {
+    color: #f5f8fc; line-height: 1.65; font-size: 1.02rem;
+  }
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 14px;
+    margin-top: 14px;
+  }
+  .panel {
+    background: linear-gradient(160deg, rgba(255,255,255,0.08), rgba(8,12,18,0.92));
+    border: 1px solid rgba(255,216,106,0.22);
+    border-radius: 12px;
+    padding: 16px;
+  }
+  .panel-title {
+    font-family: 'Cinzel', serif; font-size: 0.98rem; color: var(--gold-light);
+    letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 10px;
+  }
+  .panel-text { color: #d7e2ef; line-height: 1.55; font-size: 0.95rem; }
+  .list { list-style: none; display: grid; gap: 10px; }
+  .list li {
+    padding: 10px 12px; border-radius: 8px; background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,216,106,0.18); color: #f5f8fc; line-height: 1.45;
+  }
+  .list strong {
+    display: block; margin-bottom: 4px;
+    font-family: 'Cinzel', serif; font-size: 0.74rem; letter-spacing: 0.1em;
+    text-transform: uppercase; color: var(--cyan);
+  }
+  .important {
+    margin-top: 14px;
+    border: 1px solid rgba(139,232,255,0.34);
+    background: rgba(139,232,255,0.06);
+    border-radius: 12px;
+    padding: 14px;
+  }
+  .important-title {
+    font-family: 'Cinzel Decorative', serif;
+    color: var(--gold-light);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+  .codes {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 10px;
+  }
+  .code-box {
+    border-radius: 10px;
+    padding: 12px 14px;
+    background: linear-gradient(180deg, rgba(255,255,255,0.08), rgba(255,255,255,0.03));
+    border: 1px solid rgba(183,165,255,0.28);
+    color: #f5f8fc;
+  }
+  .code-box strong {
+    display: block;
+    margin-bottom: 4px;
+    font-family: 'Cinzel', serif;
+    color: var(--violet);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    font-size: 0.74rem;
+  }
+  .footer {
+    margin-top: 18px;
+    text-align: center;
+    color: #b7c3d4;
+    font-family: 'Cinzel', serif;
+    font-size: 0.62rem;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+  }
+  @media (max-width: 700px) {
+    body { padding: 16px; }
+    .page { padding: 20px 14px 18px; }
+    .title { font-size: 1.75rem; }
+  }
 </style>
 </head>
 <body>
@@ -41,12 +161,89 @@
     <div class="topbar">
       <a class="btn" href="index.html">⬅ Inicio</a>
       <a class="btn" href="castillos/index.html">🏰 Castillos</a>
+      <a class="btn" href="mapa_sol.html">☀ Mapa Sol</a>
     </div>
+
     <header class="header">
-      <span class="icon">🎉</span>
-      <span class="title">Eventos</span>
+      <span class="icon">⚠</span>
+      <span class="title">Event & Castles Update</span>
+      <div class="subtitle">Información oficial del evento</div>
     </header>
-    <div class="blank"></div>
+
+    <section class="alert">
+      <div class="alert-head">
+        <span class="pill">@everyone</span>
+        <span>Evento y Castillos</span>
+      </div>
+      <div class="lead">
+        El evento empieza el <strong>jueves 16 a las 17:00 UTC</strong>. Hora local: 🇪🇸 🇫🇷 🇮🇹 18:00, 🇲🇽 11:00, 🇵🇪 12:00, 🇹🇷 20:00.
+        Termina el <strong>lunes</strong> con el restart.
+      </div>
+    </section>
+
+    <div class="grid">
+      <div class="panel">
+        <div class="panel-title">🏰 Castillos Release</div>
+        <div class="panel-text">Arranca el día 16. Da prioridad a esta parte porque forma parte central del evento.</div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-title">⚓ Event Admirals</div>
+        <ul class="list">
+          <li><strong>PvE</strong> Leviathan</li>
+          <li><strong>PvP</strong> Locust Project</li>
+          <li><strong>Extra</strong> NPCs medios incluidos</li>
+        </ul>
+      </div>
+
+      <div class="panel">
+        <div class="panel-title">🌊 Raid Map</div>
+        <ul class="list">
+          <li><strong>Inicio</strong> 17th, posible cambio al 16th</li>
+          <li><strong>Bonus ELP</strong> +35%</li>
+          <li><strong>Contenido</strong> quests de Raid Map y NPCs</li>
+        </ul>
+      </div>
+
+      <div class="panel">
+        <div class="panel-title">🎯 Event Achievements</div>
+        <div class="panel-text">Logros por daño y kills de NPCs, tanto en Raid Map como en mapas normales.</div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-title">⚔ Arena Return</div>
+        <div class="panel-text">Empieza el 17. Se abre cada 10 o 15 min. Si estás dentro de Raid Map no podrás registrarte ni entrar.</div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-title">🚢 New Designs</div>
+        <ul class="list">
+          <li><strong>SeaHawk</strong> en payment shop</li>
+          <li><strong>Locust Prototype</strong> diseño básico del PvP Admiral</li>
+          <li><strong>Locust</strong> 10 Prototypes</li>
+          <li><strong>Venom</strong> por achievements de daño</li>
+        </ul>
+      </div>
+    </div>
+
+    <section class="important">
+      <div class="important-title">⚠ Puntos clave</div>
+      <div class="codes">
+        <div class="code-box"><strong>Giveaways</strong> Habrá 2 sorteos: 1 en Discord y 1 en Facebook. Se publicará la info antes del evento.</div>
+        <div class="code-box"><strong>Codes</strong> 2 códigos: uno al inicio del evento y otro durante el fin de semana.</div>
+        <div class="code-box"><strong>Notice</strong> Información detallada será publicada pronto.</div>
+      </div>
+    </section>
+
+    <section class="important" style="margin-top:14px; border-color: rgba(255,112,112,0.32); background: var(--red-soft);">
+      <div class="important-title">🚨 Resumen rápido</div>
+      <div class="panel-text">
+        PvE Admiral: Leviathan. PvP Admiral: Locust Project. Raid Map vuelve como Sun Map.
+        Arena, achievements, nuevos diseños y códigos forman el núcleo del evento.
+      </div>
+    </section>
+
+    <div class="footer">Wiki Seefight 3D • Eventos</div>
   </div>
 </body>
 </html>

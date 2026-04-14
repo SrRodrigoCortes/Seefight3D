@@ -235,6 +235,33 @@
   .card--blank:hover { box-shadow: 0 12px 50px rgba(139,232,255,0.16), inset 0 0 40px rgba(255,255,255,0.03); border-color: var(--cyan); }
   .card--blank:hover .card-btn { background: rgba(139,232,255,0.14); border-color: var(--cyan); }
 
+  .card--alert {
+    border-color: rgba(255,112,112,0.42);
+    box-shadow: 0 0 30px rgba(255,112,112,0.10), inset 0 0 40px rgba(255,255,255,0.02);
+  }
+
+  .card--alert::before {
+    background: radial-gradient(ellipse at 50% 0%, rgba(255,112,112,0.10), transparent 70%);
+  }
+
+  .card--alert .card-icon,
+  .card--alert .card-title,
+  .card--alert .card-btn { color: #ffd6d6; }
+
+  .card--alert .card-tag { color: #ff8f8f; }
+
+  .card--alert .card-btn {
+    border-color: rgba(255,112,112,0.48);
+    background: rgba(255,112,112,0.08);
+  }
+
+  .card--alert:hover {
+    box-shadow: 0 12px 50px rgba(255,112,112,0.18), inset 0 0 40px rgba(255,255,255,0.03);
+    border-color: #ff8f8f;
+  }
+
+  .card--alert:hover .card-btn { background: rgba(255,112,112,0.14); border-color: #ff8f8f; }
+
   footer {
     margin-top: 24px;
     text-align: center;
@@ -314,11 +341,11 @@
         <span class="card-btn">Abrir →</span>
       </a>
 
-      <a class="card card--blank" href="eventos.html">
+      <a class="card card--alert" href="eventos.html">
         <span class="card-icon">🎉</span>
         <span class="card-title">Eventos</span>
-        <span class="card-tag">Espacio limpio</span>
-        <div class="card-text">Página vacía para que rellenes aquí todos los eventos creados.</div>
+        <span class="card-tag">Anuncio principal</span>
+        <div class="card-text">Accede al apartado principal de eventos y novedades importantes.</div>
         <span class="card-btn">Abrir →</span>
       </a>
     </div>
