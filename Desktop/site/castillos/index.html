@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🏰 Castillos - Wiki Seefight 3D</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700;900&family=Cinzel:wght@400;600;700&family=Crimson+Pro:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --gold: #d4a520;
+    --gold-light: #f0c84a;
+    --gold-dim: #8a6a10;
+    --teal: #1a9e8a;
+    --teal-light: #2dd4bc;
+    --dark: #07090a;
+    --text: #e8dcc0;
+    --text-dim: #b7a57b;
+  }
+  body { background: var(--dark); font-family: 'Crimson Pro', serif; min-height: 100vh; padding: 22px; color: var(--text); }
+  .page { max-width: 1240px; margin: 0 auto; background: linear-gradient(180deg, #151008 0%, #0b0905 100%); border: 3px solid var(--gold-dim); box-shadow: 0 0 0 1px #0d0a06, 0 0 0 8px #1a1208, inset 0 0 80px rgba(0,0,0,0.45); border-radius: 8px; padding: 30px 22px 28px; }
+  .topbar { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; margin-bottom: 22px; }
+  .btn { display: inline-flex; align-items: center; gap: 8px; padding: 10px 14px; border-radius: 6px; text-decoration: none; font-family: 'Cinzel', serif; font-size: 0.74rem; letter-spacing: 0.16em; text-transform: uppercase; border: 1px solid rgba(212,165,32,0.42); background: rgba(8,8,8,0.88); color: var(--gold-light); }
+  .header { text-align: center; margin-bottom: 22px; }
+  .icon { font-size: 2.5rem; display: block; margin-bottom: 8px; }
+  .title { font-family: 'Cinzel Decorative', serif; font-size: 2.4rem; font-weight: 900; color: var(--gold-light); letter-spacing: 0.08em; text-transform: uppercase; display: block; }
+  .subtitle { margin-top: 10px; font-family: 'Cinzel', serif; font-size: 0.78rem; letter-spacing: 0.28em; text-transform: uppercase; color: var(--text-dim); }
+  .note { max-width: 920px; margin: 0 auto 24px; text-align: center; color: var(--text-dim); line-height: 1.6; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 14px; }
+  .panel { background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(0,0,0,0.2)); border: 1px solid rgba(212,165,32,0.14); border-radius: 10px; padding: 16px; min-height: 210px; }
+  .panel-title { font-family: 'Cinzel', serif; font-size: 1rem; color: var(--gold-light); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 8px; }
+  .panel-text { color: var(--text-dim); line-height: 1.55; font-size: 0.95rem; margin-bottom: 14px; }
+  .link-list { list-style: none; display: grid; gap: 10px; }
+  .link-list a { display: block; text-decoration: none; color: var(--text); padding: 10px 12px; border-radius: 8px; background: rgba(0,0,0,0.2); border: 1px solid rgba(45,212,188,0.15); transition: 0.2s ease; }
+  .link-list a:hover { border-color: var(--teal); background: rgba(26,158,138,0.08); transform: translateY(-2px); }
+  .footer { margin-top: 22px; text-align: center; color: var(--text-dim); font-family: 'Cinzel', serif; font-size: 0.65rem; letter-spacing: 0.24em; text-transform: uppercase; }
+</style>
+</head>
+<body>
+  <div class="page">
+    <div class="topbar">
+      <a class="btn" href="../index.html">⬅ Inicio</a>
+      <a class="btn" href="niveles_elite.html">⭐ Puntos Elite</a>
+      <a class="btn" href="niveles_misiones.html">🗺 Niveles</a>
+    </div>
+    <header class="header">
+      <span class="icon">🏰</span>
+      <span class="title">Castillos</span>
+      <div class="subtitle">Hub central de todo el sistema</div>
+    </header>
+    <p class="note">Aquí queda reunido todo lo relacionado con los castillos. Dejo la estructura lista para que el clan rellene textos, bonos y ajustes cuando haga falta.</p>
+    <section class="grid">
+      <div class="panel">
+        <div class="panel-title">Combat Castles</div>
+        <div class="panel-text">Espacio para combate, PvP y equipamiento ofensivo.</div>
+        <ul class="link-list"><li><a href="combat_castles_pvp.html.html">Abrir guía de combate</a></li></ul>
+      </div>
+      <div class="panel">
+        <div class="panel-title">Utility Castles</div>
+        <div class="panel-text">Espacio para farmeo, progresión y utilidades.</div>
+        <ul class="link-list"><li><a href="utility_castles_pve.html">Abrir guía de farmeo</a></li></ul>
+      </div>
+      <div class="panel">
+        <div class="panel-title">Sistema</div>
+        <div class="panel-text">Slots, costos, compatibilidades y reglas generales.</div>
+        <ul class="link-list"><li><a href="../castles_system_overview.html">Abrir sistema general</a></li></ul>
+      </div>
+      <div class="panel">
+        <div class="panel-title">Puntos Elite</div>
+        <div class="panel-text">Niveles 1 al 21 con espacios para imágenes y bonos.</div>
+        <ul class="link-list"><li><a href="niveles_elite.html">Abrir puntos elite</a></li></ul>
+      </div>
+      <div class="panel">
+        <div class="panel-title">Niveles y Misiones</div>
+        <div class="panel-text">Cinco misiones por nivel más la prueba pirata final.</div>
+        <ul class="link-list"><li><a href="niveles_misiones.html">Abrir niveles y misiones</a></li></ul>
+      </div>
+    </section>
+    <div class="footer">Wiki Seefight 3D • Castillos</div>
+  </div>
+</body>
+</html>
