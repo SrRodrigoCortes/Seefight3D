@@ -1,0 +1,9 @@
+*
+!.gitignore
+!/Desktop/
+!/Desktop/site/
+!/Desktop/site/**
+!/castles_system_overview.html
+!/combat_castles.html.html
+!/index.html
+!/utility_castles_pve.html
