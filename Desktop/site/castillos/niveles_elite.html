@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>⭐ Niveles de Élite - Wiki Seefight 3D</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700;900&family=Cinzel:wght@400;600;700&family=Crimson+Pro:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --gold: #d4a520;
+    --gold-light: #f0c84a;
+    --gold-dim: #8a6a10;
+    --dark: #080703;
+    --panel: rgba(255,255,255,0.03);
+    --panel-border: rgba(212,165,32,0.16);
+    --text: #eadfc5;
+    --text-dim: #b9a47a;
+    --accent: #6b5cff;
+    --accent-soft: rgba(107,92,255,0.15);
+  }
+
+  body {
+    background: var(--dark);
+    font-family: 'Crimson Pro', serif;
+    min-height: 100vh;
+    padding: 20px;
+    color: var(--text);
+  }
+
+  .page {
+    max-width: 1280px;
+    margin: 0 auto;
+    background:
+      radial-gradient(ellipse at 50% 0%, rgba(212,165,32,0.18) 0%, transparent 55%),
+      linear-gradient(180deg, #151008 0%, #0b0905 100%);
+    border: 3px solid var(--gold-dim);
+    box-shadow: 0 0 0 1px #0d0a06, 0 0 0 8px #1a1208, inset 0 0 80px rgba(0,0,0,0.45);
+    border-radius: 8px;
+    padding: 32px 22px 28px;
+  }
+
+  .topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-bottom: 22px;
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 14px;
+    border-radius: 6px;
+    text-decoration: none;
+    font-family: 'Cinzel', serif;
+    font-size: 0.74rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    border: 1px solid rgba(212,165,32,0.42);
+    background: rgba(8,8,8,0.88);
+    color: var(--gold-light);
+  }
+
+  .header { text-align: center; margin-bottom: 24px; }
+  .icon { font-size: 2.6rem; display: block; margin-bottom: 8px; }
+  .title {
+    font-family: 'Cinzel Decorative', serif;
+    font-size: 2.4rem;
+    font-weight: 900;
+    color: var(--gold-light);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    display: block;
+  }
+  .subtitle {
+    margin-top: 10px;
+    font-family: 'Cinzel', serif;
+    font-size: 0.78rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+  }
+
+  .note {
+    max-width: 980px;
+    margin: 0 auto 22px;
+    text-align: center;
+    color: var(--text-dim);
+    line-height: 1.6;
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 14px;
+  }
+
+  .elite-card {
+    background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(0,0,0,0.22));
+    border: 1px solid var(--panel-border);
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: inset 0 0 30px rgba(0,0,0,0.25);
+  }
+
+  .elite-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 14px;
+    border-bottom: 1px solid rgba(212,165,32,0.1);
+    background: rgba(0,0,0,0.22);
+  }
+
+  .elite-level {
+    font-family: 'Cinzel', serif;
+    font-size: 0.95rem;
+    color: var(--gold-light);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .elite-requirement {
+    font-family: 'Cinzel', serif;
+    font-size: 0.72rem;
+    color: var(--text-dim);
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+  }
+
+  .elite-image-wrap {
+    position: relative;
+    aspect-ratio: 1 / 1;
+    padding: 12px;
+  }
+
+  .elite-image {
+    width: 100%;
+    height: 100%;
+    border-radius: 8px;
+    border: 1px dashed rgba(240,200,74,0.35);
+    background:
+      radial-gradient(circle at 50% 30%, rgba(240,200,74,0.15), transparent 45%),
+      linear-gradient(180deg, rgba(212,165,32,0.08), rgba(0,0,0,0.28));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: var(--text-dim);
+    font-family: 'Cinzel', serif;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    padding: 16px;
+    position: relative;
+    overflow: hidden;
+    cursor: help;
+  }
+
+  .elite-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .elite-image--filled {
+    border-style: solid;
+    background: transparent;
+  }
+
+  .elite-image--filled::before {
+    content: '';
+  }
+
+  .elite-image--empty::before {
+    content: 'Imagen pendiente';
+    font-size: 0.82rem;
+  }
+
+  .elite-bonus {
+    position: absolute;
+    inset: 12px;
+    border-radius: 8px;
+    background: rgba(7,7,7,0.88);
+    border: 1px solid rgba(240,200,74,0.28);
+    color: #fff;
+    opacity: 0;
+    transform: translateY(8px);
+    transition: 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 14px;
+    text-align: center;
+    pointer-events: none;
+  }
+
+  .elite-image-wrap:hover .elite-bonus { opacity: 1; transform: translateY(0); }
+
+  .bonus-box {
+    width: 100%;
+    font-size: 0.94rem;
+    line-height: 1.55;
+  }
+
+  .bonus-title {
+    display: block;
+    font-family: 'Cinzel Decorative', serif;
+    color: var(--gold-light);
+    letter-spacing: 0.08em;
+    margin-bottom: 8px;
+  }
+
+  .bonus-elite {
+    display: block;
+    font-family: 'Cinzel', serif;
+    color: var(--text-dim);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+    font-size: 0.72rem;
+  }
+
+  .bonus-line {
+    display: block;
+    color: var(--text);
+  }
+
+  .footer {
+    margin-top: 22px;
+    text-align: center;
+    color: var(--text-dim);
+    font-family: 'Cinzel', serif;
+    font-size: 0.65rem;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+  }
+
+  @media (max-width: 700px) {
+    .page { padding: 20px 14px 18px; }
+    .title { font-size: 1.8rem; }
+  }
+</style>
+</head>
+<body>
+  <div class="page">
+    <div class="topbar">
+      <a class="btn" href="../index.html">⬅ Inicio</a>
+      <a class="btn" href="utility_castles_pve.html">🧭 Farmeo</a>
+    </div>
+
+    <header class="header">
+      <span class="icon">⭐</span>
+      <span class="title">Niveles de Élite</span>
+      <div class="subtitle">Nivel 1 al 21</div>
+    </header>
+
+    <p class="note">Los niveles 1 al 14 ya están conectados a sus imágenes. Del 15 al 21 quedan reservados para agregar los archivos después sin cambiar la estructura.</p>
+
+    <section class="grid">
+      <article class="elite-card"><div class="elite-head"><div class="elite-level">Elite 1</div><div class="elite-requirement">Puntos requeridos: 0</div></div><div class="elite-image-wrap"><div class="elite-image elite-image--filled"><img src="../images/elite1.jpeg" alt="Elite 1"></div><div class="elite-bonus"><div class="bonus-box"><span class="bonus-elite">Elite 1</span><span class="bonus-title">Bonos</span><span class="bonus-line">Espacio reservado para completar bonos de Elite 1.</span></div></div></div></article>
+      <article class="elite-card"><div class="elite-head"><div class="elite-level">Elite 2</div><div class="elite-requirement">Puntos requeridos: 40,000</div></div><div class="elite-image-wrap"><div class="elite-image elite-image--filled"><img src="../images/elite2.jpeg" alt="Elite 2"></div><div class="elite-bonus"><div class="bonus-box"><span class="bonus-elite">Elite 2</span><span class="bonus-title">Bonos</span><span class="bonus-line">Espacio reservado para completar bonos de Elite 2.</span></div></div></div></article>
+      <article class="elite-card"><div class="elite-head"><div class="elite-level">Elite 3</div><div class="elite-requirement">Puntos requeridos: 72,400</div></div><div class="elite-image-wrap"><div class="elite-image elite-image--filled"><img src="../images/elite3.jpeg" alt="Elite 3"></div><div class="elite-bonus"><div class="bonus-box"><span class="bonus-elite">Elite 3</span><span class="bonus-title">Bonos</span><span class="bonus-line">Espacio reservado para completar bonos de Elite 3.</span></div></div></div></article>
+      <article class="elite-card"><div class="elite-head"><div class="elite-level">Elite 4</div><div class="elite-requirement">Puntos requeridos: 128,872</div></div><div class="elite-image-wrap"><div class="elite-image elite-image--filled"><img src="../images/elite4.jpeg" alt="Elite 4"></div><div class="elite-bonus"><div class="bonus-box"><span class="bonus-elite">Elite 4</span><span class="bonus-title">Bonos</span><span class="bonus-line">Espacio reservado para completar bonos de Elite 4.</span></div></div></div></article>
+      <article class="elite-card"><div class="elite-head"><div class="elite-level">Elite 5</div><div class="elite-requirement">Puntos requeridos: 225,526</div></div><div class="elite-image-wrap"><div class="elite-image elite-image--filled"><img src="../images/elite5.jpeg" alt="Elite 5"></div><div class="elite-bonus"><div class="bonus-box"><span class="bonus-elite">Elite 5</span><span class="bonus-title">Bonos</span><span class="bonus-line">Espacio reservado para completar bonos de Elite 5.</span></div></div></div></article>
+      <article class="elite-card"><div class="elite-head"><div class="elite-level">Elite 6</div><div class="elite-requirement">Puntos requeridos: 387,905</div></div><div class="elite-image-wrap"><div class="elite-image elite-image--filled"><img src="../images/elite6.jpeg" alt="Elite 6"></div><div class="elite-bonus"><div class="bonus-box"><span class="bonus-elite">Elite 6</span><span class="bonus-title">Bonos</span><span class="bonus-line">Espacio reservado para completar bonos de Elite 6.</span></div></div></div></article>
+      <article class="elite-card"><div class="elite-head"><div class="elite-level">Elite 7</div><div class="elite-requirement">Puntos requeridos: 655,559</div></div><div class="elite-image-wrap"><div class="elite-image elite-image--filled"><img src="../images/elite7.jpeg" alt="Elite 7"></div><div class="elite-bonus"><div class="bonus-box"><span class="bonus-elite">Elite 7</span><span class="bonus-title">Bonos</span><span class="bonus-line">Espacio reservado para completar bonos de Elite 7.</span></div></div></div></article>
+      <article class="elite-card"><div class="elite-head"><div class="elite-level">Elite 8</div><div class="elite-requirement">Puntos requeridos: 1,088,228</div></div><div class="elite-image-wrap"><div class="elite-image elite-image--filled"><img src="../images/elite8.jpeg" alt="Elite 8"></div><div class="elite-bonus"><div class="bonus-box"><span class="bonus-elite">Elite 8</span><span class="bonus-title">Bonos</span><span class="bonus-line">Espacio reservado para completar bonos de Elite 8.</span></div></div></div></article>
+      <article class="elite-card"><div class="elite-head"><div class="elite-level">Elite 9</div><div class="elite-requirement">Puntos requeridos: 1,773,811</div></div><div class="elite-image-wrap"><div class="elite-image elite-image--filled"><img src="../images/elite9.jpeg" alt="Elite 9"></div><div class="elite-bonus"><div class="bonus-box"><span class="bonus-elite">Elite 9</span><span class="bonus-title">Bonos</span><span class="bonus-line">Espacio reservado para completar bonos de Elite 9.</span></div></div></div></article>
+      <article class="elite-card"><div class="elite-head"><div class="elite-level">Elite 10</div><div class="elite-requirement">Puntos requeridos: 2,838,098</div></div><div class="elite-image-wrap"><div class="elite-image elite-image--filled"><img src="../images/elite10.jpeg" alt="Elite 10"></div><div class="elite-bonus"><div class="bonus-box"><span class="bonus-elite">Elite 10</span><span class="bonus-title">Bonos</span><span class="bonus-line">Espacio reservado para completar bonos de Elite 10.</span></div></div></div></article>
+      <article class="elite-card"><div class="elite-head"><div class="elite-level">Elite 11</div><div class="elite-requirement">Puntos requeridos: 4,455,814</div></div><div class="elite-image-wrap"><div class="elite-image elite-image--filled"><img src="../images/elite11.jpeg" alt="Elite 11"></div><div class="elite-bonus"><div class="bonus-box"><span class="bonus-elite">Elite 11</span><span class="bonus-title">Bonos</span><span class="bonus-line">Espacio reservado para completar bonos de Elite 11.</span></div></div></div></article>
+      <article class="elite-card"><div class="elite-head"><div class="elite-level">Elite 12</div><div class="elite-requirement">Puntos requeridos: 6,861,954</div></div><div class="elite-image-wrap"><div class="elite-image elite-image--filled"><img src="../images/elite12.jpeg" alt="Elite 12"></div><div class="elite-bonus"><div class="bonus-box"><span class="bonus-elite">Elite 12</span><span class="bonus-title">Bonos</span><span class="bonus-line">Espacio reservado para completar bonos de Elite 12.</span></div></div></div></article>
+      <article class="elite-card"><div class="elite-head"><div class="elite-level">Elite 13</div><div class="elite-requirement">Puntos requeridos: 10,361,551</div></div><div class="elite-image-wrap"><div class="elite-image elite-image--filled"><img src="../images/elite13.jpeg" alt="Elite 13"></div><div class="elite-bonus"><div class="bonus-box"><span class="bonus-elite">Elite 13</span><span class="bonus-title">Bonos</span><span class="bonus-line">Espacio reservado para completar bonos de Elite 13.</span></div></div></div></article>
+      <article class="elite-card"><div class="elite-head"><div class="elite-level">Elite 14</div><div class="elite-requirement">Puntos requeridos: 15,335,095</div></div><div class="elite-image-wrap"><div class="elite-image elite-image--filled"><img src="../images/elite14.jpeg" alt="Elite 14"></div><div class="elite-bonus"><div class="bonus-box"><span class="bonus-elite">Elite 14</span><span class="bonus-title">Bonos</span><span class="bonus-line">Espacio reservado para completar bonos de Elite 14.</span></div></div></div></article>
+      <article class="elite-card"><div class="elite-head"><div class="elite-level">Elite 15</div><div class="elite-requirement">Puntos requeridos: 22,235,888</div></div><div class="elite-image-wrap"><div class="elite-image elite-image--empty"></div><div class="elite-bonus"><div class="bonus-box"><span class="bonus-elite">Elite 15</span><span class="bonus-title">Bonos</span><span class="bonus-line">Espacio reservado para completar bonos de Elite 15.</span></div></div></div></article>
+      <article class="elite-card"><div class="elite-head"><div class="elite-level">Elite 16</div><div class="elite-requirement">Puntos requeridos: 30,352,602</div></div><div class="elite-image-wrap"><div class="elite-image elite-image--empty"></div><div class="elite-bonus"><div class="bonus-box"><span class="bonus-elite">Elite 16</span><span class="bonus-title">Bonos</span><span class="bonus-line">Espacio reservado para completar bonos de Elite 16.</span></div></div></div></article>
+      <article class="elite-card"><div class="elite-head"><div class="elite-level">Elite 17</div><div class="elite-requirement">Puntos requeridos: 40,953,065</div></div><div class="elite-image-wrap"><div class="elite-image elite-image--empty"></div><div class="elite-bonus"><div class="bonus-box"><span class="bonus-elite">Elite 17</span><span class="bonus-title">Bonos</span><span class="bonus-line">Espacio reservado para completar bonos de Elite 17.</span></div></div></div></article>
+      <article class="elite-card"><div class="elite-head"><div class="elite-level">Elite 18</div><div class="elite-requirement">Puntos requeridos: 56,127,577</div></div><div class="elite-image-wrap"><div class="elite-image elite-image--empty"></div><div class="elite-bonus"><div class="bonus-box"><span class="bonus-elite">Elite 18</span><span class="bonus-title">Bonos</span><span class="bonus-line">Espacio reservado para completar bonos de Elite 18.</span></div></div></div></article>
+      <article class="elite-card"><div class="elite-head"><div class="elite-level">Elite 19</div><div class="elite-requirement">Puntos requeridos: 73,694,574</div></div><div class="elite-image-wrap"><div class="elite-image elite-image--empty"></div><div class="elite-bonus"><div class="bonus-box"><span class="bonus-elite">Elite 19</span><span class="bonus-title">Bonos</span><span class="bonus-line">Espacio reservado para completar bonos de Elite 19.</span></div></div></div></article>
+      <article class="elite-card"><div class="elite-head"><div class="elite-level">Elite 20</div><div class="elite-requirement">Puntos requeridos: 93,039,399</div></div><div class="elite-image-wrap"><div class="elite-image elite-image--empty"></div><div class="elite-bonus"><div class="bonus-box"><span class="bonus-elite">Elite 20</span><span class="bonus-title">Bonos</span><span class="bonus-line">Espacio reservado para completar bonos de Elite 20.</span></div></div></div></article>
+      <article class="elite-card"><div class="elite-head"><div class="elite-level">Elite 21</div><div class="elite-requirement">Puntos requeridos: 120,988,117</div></div><div class="elite-image-wrap"><div class="elite-image elite-image--empty"></div><div class="elite-bonus"><div class="bonus-box"><span class="bonus-elite">Elite 21</span><span class="bonus-title">Bonos</span><span class="bonus-line">Espacio reservado para completar bonos de Elite 21.</span></div></div></div></article>
+    </section>
+
+    <div class="footer">Wiki Seefight 3D • Niveles de élite</div>
+  </div>
+</body>
+</html>

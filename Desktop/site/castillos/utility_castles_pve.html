@@ -212,9 +212,150 @@
     letter-spacing: 0.3em;
     text-transform: uppercase;
   }
+
+
+  /* Multilingual controls */
+  .top-controls {
+    position: fixed;
+    top: 18px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: min(1100px, calc(100% - 24px));
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    z-index: 9999;
+    pointer-events: none;
+  }
+
+  .lang-panel,
+  .nav-buttons {
+    pointer-events: auto;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+
+  .lang-panel {
+    background: rgba(8, 8, 8, 0.88);
+    border: 1px solid rgba(212,165,32,0.45);
+    border-radius: 8px;
+    padding: 10px 14px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.35);
+    backdrop-filter: blur(6px);
+  }
+
+  .lang-label {
+    font-family: 'Cinzel', serif;
+    font-size: 0.72rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: #e8dcc0;
+    white-space: nowrap;
+  }
+
+  .lang-select {
+    background: rgba(0,0,0,0.75);
+    color: #e8dcc0;
+    border: 1px solid rgba(212,165,32,0.5);
+    border-radius: 6px;
+    padding: 8px 10px;
+    font-family: 'Cinzel', serif;
+    font-size: 0.8rem;
+    outline: none;
+    min-width: 180px;
+  }
+
+  .btn-nav {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 10px 16px;
+    border-radius: 6px;
+    text-decoration: none;
+    font-family: 'Cinzel', serif;
+    font-size: 0.74rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    background: rgba(0,0,0,0.82);
+    color: #e8dcc0;
+    border: 1px solid rgba(212,165,32,0.45);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.28);
+    transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+  }
+
+  .btn-nav:hover {
+    transform: translateY(-2px);
+    border-color: rgba(240,200,74,0.85);
+    box-shadow: 0 12px 30px rgba(0,0,0,0.35), 0 0 16px rgba(212,165,32,0.18);
+  }
+
+  #google_translate_element {
+    position: absolute;
+    left: -9999px;
+    top: -9999px;
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  body .skiptranslate,
+  body .goog-te-banner-frame,
+  body .goog-te-balloon-frame {
+    display: none !important;
+  }
+
+  body { top: 0 !important; }
+
+  .goog-text-highlight {
+    background: transparent !important;
+    box-shadow: none !important;
+  }
+
+  @media (max-width: 900px) {
+    .top-controls {
+      position: static;
+      transform: none;
+      width: 100%;
+      margin-bottom: 18px;
+      justify-content: center;
+      padding: 0 10px;
+      flex-direction: column;
+    }
+
+    body {
+      padding-top: 12px;
+    }
+
+    .lang-panel,
+    .nav-buttons {
+      justify-content: center;
+    }
+  }
+
 </style>
 </head>
 <body>
+
+<div class="top-controls">
+  <div class="lang-panel">
+    <span class="lang-label">Idioma</span>
+    <select id="languageSelect" class="lang-select" aria-label="Seleccionar idioma">
+      <option value="es">Español</option>
+      <option value="en">English</option>
+      <option value="pt">Português</option>
+      <option value="tr">Türkçe</option>
+    </select>
+  </div>
+  <div class="nav-buttons">
+    <a href="combat_castles_pvp.html.html" class="btn-nav">⬅ <span>Anterior</span></a>
+    <a href="../index.html" class="btn-nav"><span>Inicio</span> ➡</a>
+  </div>
+</div>
+
+
 <div class="poster">
 
   <!-- Corners -->
@@ -339,5 +480,54 @@
     <p class="footer-text"> &nbsp; Todos los derechos reservados par Sir-Clan CHI 2026 </p>
   </div>
 </div>
+
+<div id="google_translate_element" aria-hidden="true"></div>
+<script>
+  function googleTranslateElementInit() {
+    new google.translate.TranslateElement({
+      pageLanguage: 'es',
+      includedLanguages: 'es,en,pt,tr',
+      autoDisplay: false
+    }, 'google_translate_element');
+  }
+
+  function applyLanguage(lang, shouldStore = true) {
+    const nativeSelect = document.querySelector('.goog-te-combo');
+    if (!nativeSelect) return;
+    nativeSelect.value = lang;
+    nativeSelect.dispatchEvent(new Event('change'));
+    document.documentElement.lang = lang;
+    if (shouldStore) {
+      localStorage.setItem('site-language', lang);
+    }
+  }
+
+  function waitForTranslateAndApply(lang) {
+    let attempts = 0;
+    const timer = setInterval(() => {
+      const nativeSelect = document.querySelector('.goog-te-combo');
+      if (nativeSelect) {
+        clearInterval(timer);
+        applyLanguage(lang, false);
+      }
+      attempts += 1;
+      if (attempts > 40) clearInterval(timer);
+    }, 250);
+  }
+
+  window.addEventListener('DOMContentLoaded', () => {
+    const customSelect = document.getElementById('languageSelect');
+    const savedLang = localStorage.getItem('site-language') || 'es';
+    customSelect.value = savedLang;
+
+    customSelect.addEventListener('change', function () {
+      applyLanguage(this.value, true);
+    });
+
+    waitForTranslateAndApply(savedLang);
+  });
+</script>
+<script src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
 </body>
 </html>
