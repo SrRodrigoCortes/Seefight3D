@@ -9,20 +9,22 @@
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
   :root {
-    --gold: #d4a520;
-    --gold-light: #f0c84a;
-    --gold-dim: #8a6a10;
-    --teal: #1a9e8a;
-    --teal-light: #2dd4bc;
-    --violet: #7b67ff;
-    --cyan: #4fd7ff;
-    --dark: #07090a;
-    --text: #e8dcc0;
-    --text-dim: #b7a57b;
+    --gold: #ffd86a;
+    --gold-light: #fff4c2;
+    --gold-dim: #caa34a;
+    --teal: #63e3d0;
+    --teal-light: #d9fff8;
+    --violet: #9b8cff;
+    --cyan: #8be8ff;
+    --dark: #0b1016;
+    --text: #f5f8fc;
+    --text-dim: #d2dbe6;
   }
 
   body {
-    background: var(--dark);
+    background:
+      linear-gradient(180deg, rgba(11,16,22,0.72) 0%, rgba(9,13,18,0.90) 100%),
+      url('images/fondo.jpeg') center top / cover fixed no-repeat;
     font-family: 'Crimson Pro', serif;
     min-height: 100vh;
     padding: 32px 20px 40px;
@@ -32,20 +34,25 @@
   .page {
     max-width: 1320px;
     margin: 0 auto;
+    padding: 18px 18px 8px;
+    border-radius: 18px;
+    background: rgba(8, 12, 18, 0.44);
+    backdrop-filter: blur(8px);
+    box-shadow: 0 16px 60px rgba(0,0,0,0.35);
   }
 
   header {
     text-align: center;
-    margin-bottom: 30px;
+    margin-bottom: 28px;
   }
 
   .site-title {
     font-family: 'Cinzel Decorative', serif;
     font-size: 2.2rem;
     font-weight: 900;
-    color: #e8dcc0;
+    color: var(--gold-light);
     letter-spacing: 0.08em;
-    text-shadow: 0 0 30px rgba(212,165,32,0.3);
+    text-shadow: 0 0 22px rgba(255,216,106,0.22);
     display: block;
   }
 
@@ -53,7 +60,7 @@
     font-family: 'Cinzel', serif;
     font-size: 0.75rem;
     letter-spacing: 0.35em;
-    color: #6a5c40;
+    color: #b7c3d4;
     text-transform: uppercase;
     margin-top: 8px;
     display: block;
@@ -70,15 +77,16 @@
   .divider-line {
     flex: 1;
     height: 1px;
-    background: linear-gradient(90deg, transparent, #6a5c40, transparent);
+    background: linear-gradient(90deg, transparent, rgba(255,216,106,0.35), transparent);
   }
 
   .divider-gem {
     width: 8px;
     height: 8px;
-    background: #8a6a10;
+    background: var(--gold);
     transform: rotate(45deg);
     flex-shrink: 0;
+    box-shadow: 0 0 12px rgba(255,216,106,0.45);
   }
 
   .cards {
@@ -89,19 +97,16 @@
 
   .card {
     min-height: 180px;
-    background: linear-gradient(160deg, #12100a 0%, #0a0806 100%);
     border: 2px solid;
-    border-radius: 10px;
+    border-radius: 12px;
     padding: 22px 20px;
     text-align: left;
     text-decoration: none;
     position: relative;
     overflow: hidden;
     transition: transform 0.25s, box-shadow 0.25s, border-color 0.25s;
-  }
-
-  .card:hover {
-    transform: translateY(-5px);
+    backdrop-filter: blur(8px);
+    background: linear-gradient(160deg, rgba(255,255,255,0.10) 0%, rgba(8,12,18,0.92) 100%);
   }
 
   .card::before {
@@ -113,13 +118,17 @@
     pointer-events: none;
   }
 
+  .card:hover {
+    transform: translateY(-5px);
+  }
+
   .card:hover::before { opacity: 1; }
 
   .card-icon {
     font-size: 2.8rem;
     display: block;
     margin-bottom: 14px;
-    filter: drop-shadow(0 0 12px currentColor);
+    filter: drop-shadow(0 0 10px currentColor);
   }
 
   .card-title {
@@ -141,7 +150,7 @@
   }
 
   .card-text {
-    color: var(--text-dim);
+    color: #d7e2ef;
     line-height: 1.55;
     font-size: 0.95rem;
   }
@@ -156,8 +165,8 @@
   .card-list li {
     font-size: 0.92rem;
     padding: 5px 0;
-    border-bottom: 1px solid rgba(255,255,255,0.04);
-    color: var(--text-dim);
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+    color: #d7e2ef;
   }
 
   .card-btn {
@@ -174,112 +183,57 @@
   }
 
   .card--gold {
-    border-color: var(--gold-dim);
-    box-shadow: 0 0 30px rgba(212,165,32,0.08), inset 0 0 40px rgba(0,0,0,0.4);
+    border-color: rgba(255,216,106,0.42);
+    box-shadow: 0 0 30px rgba(255,216,106,0.08), inset 0 0 40px rgba(255,255,255,0.02);
   }
 
-  .card--gold::before {
-    background: radial-gradient(ellipse at 50% 0%, rgba(212,165,32,0.06), transparent 70%);
-  }
-
+  .card--gold::before { background: radial-gradient(ellipse at 50% 0%, rgba(255,216,106,0.08), transparent 70%); }
   .card--gold .card-icon,
   .card--gold .card-title,
   .card--gold .card-btn { color: var(--gold-light); }
-
-  .card--gold .card-tag { color: #c0392b; }
-
-  .card--gold .card-btn {
-    border-color: var(--gold-dim);
-    background: rgba(212,165,32,0.06);
-  }
-
-  .card--gold:hover {
-    box-shadow: 0 12px 50px rgba(212,165,32,0.2), inset 0 0 40px rgba(0,0,0,0.4);
-    border-color: var(--gold);
-  }
-
-  .card--gold:hover .card-btn { background: rgba(212,165,32,0.15); border-color: var(--gold); }
+  .card--gold .card-tag { color: #ef8d8d; }
+  .card--gold .card-btn { border-color: rgba(255,216,106,0.45); background: rgba(255,216,106,0.08); }
+  .card--gold:hover { box-shadow: 0 12px 50px rgba(255,216,106,0.18), inset 0 0 40px rgba(255,255,255,0.03); border-color: var(--gold); }
+  .card--gold:hover .card-btn { background: rgba(255,216,106,0.18); border-color: var(--gold); }
 
   .card--teal {
-    border-color: #0e5c50;
-    box-shadow: 0 0 30px rgba(26,158,138,0.08), inset 0 0 40px rgba(0,0,0,0.4);
+    border-color: rgba(99,227,208,0.42);
+    box-shadow: 0 0 30px rgba(99,227,208,0.08), inset 0 0 40px rgba(255,255,255,0.02);
   }
-
-  .card--teal::before {
-    background: radial-gradient(ellipse at 50% 0%, rgba(26,158,138,0.07), transparent 70%);
-  }
-
+  .card--teal::before { background: radial-gradient(ellipse at 50% 0%, rgba(99,227,208,0.08), transparent 70%); }
   .card--teal .card-icon,
   .card--teal .card-title,
   .card--teal .card-btn { color: var(--teal-light); }
-
   .card--teal .card-tag { color: var(--teal); }
-
-  .card--teal .card-btn {
-    border-color: #0e5c50;
-    background: rgba(26,158,138,0.06);
-  }
-
-  .card--teal:hover {
-    box-shadow: 0 12px 50px rgba(45,212,188,0.2), inset 0 0 40px rgba(0,0,0,0.4);
-    border-color: var(--teal);
-  }
-
-  .card--teal:hover .card-btn { background: rgba(45,212,188,0.12); border-color: var(--teal); }
+  .card--teal .card-btn { border-color: rgba(99,227,208,0.45); background: rgba(99,227,208,0.08); }
+  .card--teal:hover { box-shadow: 0 12px 50px rgba(99,227,208,0.18), inset 0 0 40px rgba(255,255,255,0.03); border-color: var(--teal); }
+  .card--teal:hover .card-btn { background: rgba(99,227,208,0.16); border-color: var(--teal); }
 
   .card--violet {
-    border-color: rgba(123,103,255,0.36);
-    box-shadow: 0 0 30px rgba(123,103,255,0.08), inset 0 0 40px rgba(0,0,0,0.4);
+    border-color: rgba(155,140,255,0.42);
+    box-shadow: 0 0 30px rgba(155,140,255,0.08), inset 0 0 40px rgba(255,255,255,0.02);
   }
-
-  .card--violet::before {
-    background: radial-gradient(ellipse at 50% 0%, rgba(123,103,255,0.08), transparent 70%);
-  }
-
+  .card--violet::before { background: radial-gradient(ellipse at 50% 0%, rgba(155,140,255,0.08), transparent 70%); }
   .card--violet .card-icon,
   .card--violet .card-title,
-  .card--violet .card-btn { color: #c6bbff; }
-
+  .card--violet .card-btn { color: #d7d0ff; }
   .card--violet .card-tag { color: var(--violet); }
-
-  .card--violet .card-btn {
-    border-color: rgba(123,103,255,0.45);
-    background: rgba(123,103,255,0.06);
-  }
-
-  .card--violet:hover {
-    box-shadow: 0 12px 50px rgba(123,103,255,0.2), inset 0 0 40px rgba(0,0,0,0.4);
-    border-color: var(--violet);
-  }
-
-  .card--violet:hover .card-btn { background: rgba(123,103,255,0.12); border-color: var(--violet); }
+  .card--violet .card-btn { border-color: rgba(155,140,255,0.48); background: rgba(155,140,255,0.08); }
+  .card--violet:hover { box-shadow: 0 12px 50px rgba(155,140,255,0.18), inset 0 0 40px rgba(255,255,255,0.03); border-color: var(--violet); }
+  .card--violet:hover .card-btn { background: rgba(155,140,255,0.16); border-color: var(--violet); }
 
   .card--blank {
-    border-color: rgba(79,215,255,0.3);
-    box-shadow: 0 0 30px rgba(79,215,255,0.06), inset 0 0 40px rgba(0,0,0,0.4);
+    border-color: rgba(139,232,255,0.34);
+    box-shadow: 0 0 30px rgba(139,232,255,0.06), inset 0 0 40px rgba(255,255,255,0.02);
   }
-
-  .card--blank::before {
-    background: radial-gradient(ellipse at 50% 0%, rgba(79,215,255,0.08), transparent 70%);
-  }
-
+  .card--blank::before { background: radial-gradient(ellipse at 50% 0%, rgba(139,232,255,0.08), transparent 70%); }
   .card--blank .card-icon,
   .card--blank .card-title,
-  .card--blank .card-btn { color: #bff4ff; }
-
+  .card--blank .card-btn { color: #d9fbff; }
   .card--blank .card-tag { color: var(--cyan); }
-
-  .card--blank .card-btn {
-    border-color: rgba(79,215,255,0.4);
-    background: rgba(79,215,255,0.05);
-  }
-
-  .card--blank:hover {
-    box-shadow: 0 12px 50px rgba(79,215,255,0.18), inset 0 0 40px rgba(0,0,0,0.4);
-    border-color: var(--cyan);
-  }
-
-  .card--blank:hover .card-btn { background: rgba(79,215,255,0.1); border-color: var(--cyan); }
+  .card--blank .card-btn { border-color: rgba(139,232,255,0.44); background: rgba(139,232,255,0.08); }
+  .card--blank:hover { box-shadow: 0 12px 50px rgba(139,232,255,0.16), inset 0 0 40px rgba(255,255,255,0.03); border-color: var(--cyan); }
+  .card--blank:hover .card-btn { background: rgba(139,232,255,0.14); border-color: var(--cyan); }
 
   footer {
     margin-top: 24px;
@@ -287,8 +241,12 @@
     font-family: 'Cinzel', serif;
     font-size: 0.6rem;
     letter-spacing: 0.3em;
-    color: #2e2820;
+    color: #a6b1bf;
     text-transform: uppercase;
+  }
+
+  @media (max-width: 1100px) {
+    .cards { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   }
 
   @media (max-width: 700px) {
@@ -296,10 +254,6 @@
     .site-title { font-size: 1.75rem; }
     .card { min-height: 0; padding: 24px 20px; }
     .cards { grid-template-columns: 1fr; }
-  }
-
-  @media (max-width: 1100px) and (min-width: 701px) {
-    .cards { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   }
 </style>
 </head>
