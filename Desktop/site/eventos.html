@@ -7,15 +7,32 @@
 <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700;900&family=Cinzel:wght@400;600;700&family=Crimson+Pro:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  body { background: #07090a; font-family: 'Crimson Pro', serif; min-height: 100vh; padding: 22px; color: #e8dcc0; }
-  .page { max-width: 980px; margin: 0 auto; background: linear-gradient(180deg, #151008 0%, #0b0905 100%); border: 3px solid #8a6a10; border-radius: 8px; padding: 30px 22px; }
+  :root {
+    --gold: #ffd86a;
+    --gold-light: #fff4c2;
+    --gold-dim: #caa34a;
+    --cyan: #8be8ff;
+    --dark: #0b1016;
+    --text: #f5f8fc;
+    --text-dim: #d2dbe6;
+  }
+  body {
+    background:
+      radial-gradient(circle at top, rgba(255,216,106,0.10), transparent 36%),
+      linear-gradient(180deg, #0f1620 0%, #090d12 100%);
+    font-family: 'Crimson Pro', serif;
+    min-height: 100vh;
+    padding: 22px;
+    color: var(--text);
+  }
+  .page { max-width: 980px; margin: 0 auto; background: rgba(8,12,18,0.44); border: 3px solid rgba(255,216,106,0.45); border-radius: 18px; padding: 24px 20px; backdrop-filter: blur(8px); box-shadow: 0 16px 60px rgba(0,0,0,0.35); }
   .topbar { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; margin-bottom: 22px; }
-  .btn { display: inline-flex; text-decoration: none; color: #f0c84a; border: 1px solid rgba(212,165,32,0.42); background: rgba(8,8,8,0.88); padding: 10px 14px; border-radius: 6px; font-family: 'Cinzel', serif; font-size: 0.74rem; letter-spacing: 0.16em; text-transform: uppercase; }
+  .btn { display: inline-flex; text-decoration: none; color: var(--gold-light); border: 1px solid rgba(255,216,106,0.52); background: rgba(10,14,20,0.9); padding: 10px 14px; border-radius: 6px; font-family: 'Cinzel', serif; font-size: 0.74rem; letter-spacing: 0.16em; text-transform: uppercase; }
   .header { text-align: center; margin-bottom: 24px; }
   .icon { font-size: 2.6rem; display: block; margin-bottom: 8px; }
-  .title { font-family: 'Cinzel Decorative', serif; font-size: 2.2rem; color: #f0c84a; letter-spacing: 0.08em; text-transform: uppercase; display: block; }
-  .note { color: #b7a57b; text-align: center; line-height: 1.6; }
-  .blank { margin-top: 20px; min-height: 520px; border: 1px dashed rgba(79,215,255,0.34); border-radius: 10px; background: rgba(255,255,255,0.015); }
+  .title { font-family: 'Cinzel Decorative', serif; font-size: 2.2rem; color: var(--gold-light); letter-spacing: 0.08em; text-transform: uppercase; display: block; text-shadow: 0 0 22px rgba(255,216,106,0.22); }
+  .note { color: #e3ebf5; text-align: center; line-height: 1.6; }
+  .blank { margin-top: 20px; min-height: 520px; border: 1px dashed rgba(139,232,255,0.34); border-radius: 10px; background: rgba(255,255,255,0.06); }
   @media (max-width: 700px) { body { padding: 16px; } .title { font-size: 1.7rem; } }
 </style>
 </head>
