@@ -7,15 +7,42 @@
 <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700;900&family=Cinzel:wght@400;600;700&family=Crimson+Pro:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  body { background: #07090a; font-family: 'Crimson Pro', serif; min-height: 100vh; padding: 22px; color: #e8dcc0; }
-  .page { max-width: 980px; margin: 0 auto; background: linear-gradient(180deg, #151008 0%, #0b0905 100%); border: 3px solid #8a6a10; border-radius: 8px; padding: 30px 22px; }
+  :root {
+    --gold: #ffd86a;
+    --gold-light: #fff4c2;
+    --gold-dim: #caa34a;
+    --teal: #63e3d0;
+    --dark: #0b1016;
+    --text: #f5f8fc;
+    --text-dim: #d2dbe6;
+  }
+  body {
+    background:
+      radial-gradient(circle at top, rgba(255,216,106,0.10), transparent 36%),
+      linear-gradient(180deg, #0f1620 0%, #090d12 100%);
+    font-family: 'Crimson Pro', serif;
+    min-height: 100vh;
+    padding: 22px;
+    color: var(--text);
+  }
+  .page { max-width: 1100px; margin: 0 auto; background: rgba(8,12,18,0.44); border: 3px solid rgba(255,216,106,0.45); border-radius: 18px; padding: 24px 20px 22px; backdrop-filter: blur(8px); box-shadow: 0 16px 60px rgba(0,0,0,0.35); }
   .topbar { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; margin-bottom: 22px; }
-  .btn { display: inline-flex; text-decoration: none; color: #f0c84a; border: 1px solid rgba(212,165,32,0.42); background: rgba(8,8,8,0.88); padding: 10px 14px; border-radius: 6px; font-family: 'Cinzel', serif; font-size: 0.74rem; letter-spacing: 0.16em; text-transform: uppercase; }
-  .header { text-align: center; margin-bottom: 24px; }
+  .btn { display: inline-flex; text-decoration: none; color: var(--gold-light); border: 1px solid rgba(255,216,106,0.52); background: rgba(10,14,20,0.9); padding: 10px 14px; border-radius: 6px; font-family: 'Cinzel', serif; font-size: 0.74rem; letter-spacing: 0.16em; text-transform: uppercase; }
+  .header { text-align: center; margin-bottom: 20px; }
   .icon { font-size: 2.6rem; display: block; margin-bottom: 8px; }
-  .title { font-family: 'Cinzel Decorative', serif; font-size: 2.2rem; color: #f0c84a; letter-spacing: 0.08em; text-transform: uppercase; display: block; }
-  .note { color: #b7a57b; text-align: center; line-height: 1.6; }
-  .blank { margin-top: 20px; min-height: 420px; border: 1px dashed rgba(45,212,188,0.32); border-radius: 10px; background: rgba(255,255,255,0.02); }
+  .title { font-family: 'Cinzel Decorative', serif; font-size: 2.2rem; color: var(--gold-light); letter-spacing: 0.08em; text-transform: uppercase; display: block; text-shadow: 0 0 22px rgba(255,216,106,0.22); }
+  .subtitle { margin-top: 10px; font-family: 'Cinzel', serif; font-size: 0.78rem; letter-spacing: 0.28em; text-transform: uppercase; color: #b7c3d4; }
+  .note { color: #e3ebf5; text-align: center; line-height: 1.6; max-width: 980px; margin: 0 auto 20px; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 14px; }
+  .panel { background: linear-gradient(160deg, rgba(255,255,255,0.08), rgba(8,12,18,0.92)); border: 1px solid rgba(255,216,106,0.22); border-radius: 12px; padding: 16px; }
+  .panel-title { font-family: 'Cinzel', serif; font-size: 1rem; color: var(--gold-light); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 8px; }
+  .panel-text { color: #d7e2ef; line-height: 1.55; font-size: 0.95rem; }
+  .list { list-style: none; display: grid; gap: 10px; margin-top: 12px; }
+  .list li { padding: 10px 12px; border-radius: 8px; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,216,106,0.18); color: #f5f8fc; line-height: 1.45; }
+  .list strong { color: var(--teal); font-family: 'Cinzel', serif; font-size: 0.74rem; letter-spacing: 0.1em; text-transform: uppercase; display: block; margin-bottom: 4px; }
+  .update-box { margin-top: 14px; border: 1px dashed rgba(139,232,255,0.34); border-radius: 10px; padding: 14px; background: rgba(139,232,255,0.05); }
+  .update-title { font-family: 'Cinzel Decorative', serif; color: var(--gold-light); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 8px; }
+  .update-placeholder { color: #d2dbe6; line-height: 1.6; }
   @media (max-width: 700px) { body { padding: 16px; } .title { font-size: 1.7rem; } }
 </style>
 </head>
@@ -28,9 +55,71 @@
     <header class="header">
       <span class="icon">☀</span>
       <span class="title">Mapa Sol</span>
+      <div class="subtitle">Raid Map Info</div>
     </header>
-    <p class="note">Espacio reservado para el contenido del Mapa Sol.</p>
-    <div class="blank"></div>
+    <p class="note">Aquí queda el apartado correcto para el Raid Map. Lo dejamos dentro de Mapa Sol para ir metiendo las actualizaciones, horarios, bonus y cambios del evento.</p>
+
+    <section class="grid">
+      <div class="panel">
+        <div class="panel-title">Resumen</div>
+        <div class="panel-text">El Raid Map se activa tras el restart como mini evento de prueba para revisar flujo, feedback y balance antes de decidir si queda permanente o rotativo.</div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-title">Horario</div>
+        <ul class="list">
+          <li><strong>Apertura</strong> 30 minutos después del restart</li>
+          <li><strong>Duración</strong> 40 minutos abiertos</li>
+          <li><strong>Cierre</strong> luego entra cooldown de 75 min</li>
+        </ul>
+      </div>
+
+      <div class="panel">
+        <div class="panel-title">Rotación</div>
+        <div class="panel-text">Como solo está disponible un Raid Map, alternará entre PvP y PvE. El primero tras el restart será PvP Mode.</div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-title">Admirals</div>
+        <ul class="list">
+          <li><strong>100 ships</strong> Spawn del Admiral en la posición del último NPC</li>
+          <li><strong>Centro</strong> Admiral extra en ambos modos</li>
+          <li><strong>PvP</strong> Dos Admirals iniciales: top-left y bottom-right</li>
+        </ul>
+      </div>
+
+      <div class="panel">
+        <div class="panel-title">Progresión de diseños</div>
+        <div class="panel-text">Nivel 0 Magikarp sin bonus, luego SunRay, SunBurst y Amaterasu con bonos crecientes de PvE, PvP, crítico y vida.</div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-title">Reglas y bonos</div>
+        <div class="panel-text">Entrada con 100% HP y fuera de combate. +50% Elite Points dentro del mapa. Los bonus PvE de ammo de evento no aplican.</div>
+      </div>
+    </section>
+
+    <section class="grid" style="margin-top: 14px;">
+      <div class="panel">
+        <div class="panel-title">Ammo y extras</div>
+        <div class="panel-text">Pyro ammo: 80 damage, orientada a Raid Maps y Bonus Maps. También se mencionan códigos con Pyro ammo y llaves extra.</div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-title">Diseños con bonus PvE</div>
+        <div class="panel-text">Leviathan, Abaddon y Kraken obtienen bonus PvE dentro del Raid Map si están equipados.</div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-title">Actualización continua</div>
+        <div class="panel-text">Este bloque queda listo para ir sumando tus próximos anuncios y cambios del evento.</div>
+      </div>
+    </section>
+
+    <div class="update-box">
+      <div class="update-title">Registro de actualizaciones</div>
+      <div class="update-placeholder">Pendiente de nuevas notas. Pásame la siguiente actualización y la añado aquí con fecha, cambios y observaciones.</div>
+    </div>
   </div>
 </body>
 </html>
