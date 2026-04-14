@@ -83,16 +83,16 @@
 
   .cards {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-    gap: 16px;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 14px;
   }
 
   .card {
-    min-height: 220px;
+    min-height: 180px;
     background: linear-gradient(160deg, #12100a 0%, #0a0806 100%);
     border: 2px solid;
     border-radius: 10px;
-    padding: 28px 24px;
+    padding: 22px 20px;
     text-align: left;
     text-decoration: none;
     position: relative;
@@ -295,6 +295,11 @@
     body { padding: 20px 14px 28px; }
     .site-title { font-size: 1.75rem; }
     .card { min-height: 0; padding: 24px 20px; }
+    .cards { grid-template-columns: 1fr; }
+  }
+
+  @media (max-width: 1100px) and (min-width: 701px) {
+    .cards { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   }
 </style>
 </head>
@@ -330,7 +335,7 @@
       <a class="card card--gold" href="castillos/niveles_misiones.html">
         <span class="card-icon">🗺</span>
         <span class="card-title">Niveles y pruebas Piratas</span>
-        <span class="card-tag">Nivel 1 al 21</span>
+        <span class="card-tag">Nivel 1 al 14</span>
         <ul class="card-list">
           <li>5 misiones por nivel</li>
           <li>Prueba pirata final</li>
