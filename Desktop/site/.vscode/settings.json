@@ -1,0 +1,11 @@
+{
+  "git.openRepositoryInParentFolders": "never",
+  "files.exclude": {
+    "**/.git": true,
+    "**/.DS_Store": true
+  },
+  "search.exclude": {
+    "**/.git": true,
+    "**/node_modules": true
+  }
+}
