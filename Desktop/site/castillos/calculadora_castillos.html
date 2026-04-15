@@ -170,6 +170,12 @@
     font-size: 0.92rem;
     display: none;
   }
+  .breakdown {
+    margin-top: 10px;
+    color: #b7c3d4;
+    font-size: 0.9rem;
+    line-height: 1.45;
+  }
   .note-box {
     margin-top: 14px;
     border: 1px dashed rgba(139,232,255,0.32);
@@ -209,29 +215,29 @@
     <header class="header">
       <span class="icon">🧮</span>
       <span class="title">Calculadora de Castillos</span>
-      <div class="subtitle">Slots • niveles • costos • límites</div>
+      <div class="subtitle">Castillo PVP • Castillo de utilidad • costos acumulados</div>
     </header>
 
-    <p class="note">Selecciona qué castillos quieres subir y hasta qué nivel. La calculadora usa los costos conocidos del sistema y respeta el límite de 5 slots, 1 utility fijo y máximo 3 slots en nivel 5.</p>
+    <p class="note">Selecciona qué castillos quieres subir y hasta qué nivel. El costo se suma nivel por nivel: si eliges nivel 5, se acumulan los costos de nivel 1, 2, 3, 4 y 5. Se respeta el límite de 5 slots, 1 Castillo de utilidad fijo y máximo 3 slots en nivel 5.</p>
 
     <div class="summary">
-      <div class="stat"><span class="stat-label">Total Diamonds</span><span class="stat-value" id="totalDiamonds">0</span></div>
-      <div class="stat"><span class="stat-label">Total Admiral Coins</span><span class="stat-value" id="totalCoins">0</span></div>
-      <div class="stat"><span class="stat-label">Total Gold</span><span class="stat-value" id="totalGold">0</span></div>
-      <div class="stat"><span class="stat-label">Costo estimado</span><span class="stat-value" id="totalLabel">0</span></div>
+      <div class="stat"><span class="stat-label">Total diamantes</span><span class="stat-value" id="totalDiamonds">0</span></div>
+      <div class="stat"><span class="stat-label">Total monedas Admiral</span><span class="stat-value" id="totalCoins">0</span></div>
+      <div class="stat"><span class="stat-label">Total oro</span><span class="stat-value" id="totalGold">0</span></div>
+      <div class="stat"><span class="stat-label">Costo total</span><span class="stat-value" id="totalLabel">0</span></div>
     </div>
 
     <div class="calculator" id="slots"></div>
 
     <div class="note-box">
-      <strong>Reglas aplicadas:</strong> 5 slots totales, 1 slot reservado para Utility Castle, 4 slots flexibles, hasta 3 castles nivel 5 al mismo tiempo. Los Utility Castles se calculan como una versión ligeramente más barata del mismo nivel de combate.
+      <strong>Reglas aplicadas:</strong> 5 slots totales, 1 slot reservado para Castillo de utilidad, 4 slots flexibles, hasta 3 Castillos PVP o de utilidad en nivel 5 al mismo tiempo. El Castillo de utilidad se calcula con un coste ligeramente menor en cada nivel.
     </div>
 
     <div class="footer">Wiki Seefight 3D • Calculadora de Castillos</div>
   </div>
 
   <script>
-    const combatCosts = {
+    const costosPvp = {
       1: { diamonds: 75000, coins: 0, gold: 0 },
       2: { diamonds: 150000, coins: 0, gold: 0 },
       3: { diamonds: 350000, coins: 0, gold: 0 },
@@ -239,13 +245,13 @@
       5: { diamonds: 1300000, coins: 750, gold: 250000000 },
     };
 
-    const utilityDiscount = 0.9;
+    const descuentoUtilidad = 0.9;
     const slotDefs = [
-      { name: 'Utility fijo', fixedType: 'utility', tag: '1 slot reservado' },
-      { name: 'Slot flexible 1', fixedType: null, tag: 'Slot libre' },
-      { name: 'Slot flexible 2', fixedType: null, tag: 'Slot libre' },
-      { name: 'Slot flexible 3', fixedType: null, tag: 'Slot libre' },
-      { name: 'Slot flexible 4', fixedType: null, tag: 'Slot libre' },
+      { name: 'Castillo de utilidad fijo', fixedType: 'utility', tag: '1 slot reservado' },
+      { name: 'Castillo flexible 1', fixedType: null, tag: 'Slot libre' },
+      { name: 'Castillo flexible 2', fixedType: null, tag: 'Slot libre' },
+      { name: 'Castillo flexible 3', fixedType: null, tag: 'Slot libre' },
+      { name: 'Castillo flexible 4', fixedType: null, tag: 'Slot libre' },
     ];
 
     const slotsRoot = document.getElementById('slots');
@@ -257,14 +263,14 @@
         </div>
         <div class="controls">
           <div class="field">
-            <label>Tipo</label>
+            <label>Tipo de castillo</label>
             <select class="type-select" ${slot.fixedType ? 'disabled' : ''}>
-              <option value="combat">Combat Castle</option>
-              <option value="utility" ${slot.fixedType === 'utility' ? 'selected' : ''}>Utility Castle</option>
+              <option value="combat">Castillo PVP</option>
+              <option value="utility" ${slot.fixedType === 'utility' ? 'selected' : ''}>Castillo de utilidad</option>
             </select>
           </div>
           <div class="field">
-            <label>Nivel objetivo</label>
+            <label>Nivel a subir</label>
             <select class="level-select">
               <option value="0">Sin subir</option>
               <option value="1">Nivel 1</option>
@@ -275,15 +281,16 @@
             </select>
           </div>
           <div class="field">
-            <label>Costo del slot</label>
+            <label>Costo del castillo</label>
             <input class="cost-view" type="text" readonly value="0" />
           </div>
         </div>
         <div class="cost-line">
-          <span class="chip"><strong>Diamonds:</strong> <span class="diamond-view">0</span></span>
-          <span class="chip"><strong>Coins:</strong> <span class="coins-view">0</span></span>
-          <span class="chip"><strong>Gold:</strong> <span class="gold-view">0</span></span>
+          <span class="chip"><strong>Diamantes:</strong> <span class="diamond-view">0</span></span>
+          <span class="chip"><strong>Monedas Admiral:</strong> <span class="coins-view">0</span></span>
+          <span class="chip"><strong>Oro:</strong> <span class="gold-view">0</span></span>
         </div>
+        <div class="breakdown"></div>
         <div class="warn">Límite de 3 slots en nivel 5 alcanzado.</div>
       </section>
     `).join('');
@@ -293,15 +300,19 @@
 
     function getCost(type, level) {
       if (!level) return { diamonds: 0, coins: 0, gold: 0 };
-      const base = combatCosts[level];
-      if (type === 'utility') {
-        return {
-          diamonds: Math.round(base.diamonds * utilityDiscount),
-          coins: base.coins,
-          gold: base.gold,
-        };
+      let diamonds = 0;
+      let coins = 0;
+      let gold = 0;
+
+      for (let current = 1; current <= level; current += 1) {
+        const base = costosPvp[current];
+        const multiplier = type === 'utility' ? descuentoUtilidad : 1;
+        diamonds += Math.round(base.diamonds * multiplier);
+        coins += base.coins;
+        gold += base.gold;
       }
-      return base;
+
+      return { diamonds, coins, gold };
     }
 
     function render() {
@@ -321,7 +332,10 @@
         slot.querySelector('.diamond-view').textContent = fmt(cost.diamonds);
         slot.querySelector('.coins-view').textContent = fmt(cost.coins);
         slot.querySelector('.gold-view').textContent = fmt(cost.gold);
-        slot.querySelector('.cost-view').value = `${fmt(cost.diamonds)} D | ${fmt(cost.coins)} C | ${fmt(cost.gold)} G`;
+        slot.querySelector('.cost-view').value = `${fmt(cost.diamonds)} D | ${fmt(cost.coins)} M | ${fmt(cost.gold)} O`;
+        slot.querySelector('.breakdown').textContent = level
+          ? `Desglose acumulado: ${Array.from({ length: level }, (_, i) => `nivel ${i + 1}`).join(' + ')}`
+          : 'Sin niveles seleccionados.';
         totalDiamonds += cost.diamonds;
         totalCoins += cost.coins;
         totalGold += cost.gold;
