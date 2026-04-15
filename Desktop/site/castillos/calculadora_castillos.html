@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🧮 Calculadora de Castillos - Wiki Seefight 3D</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700;900&family=Cinzel:wght@400;600;700&family=Crimson+Pro:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --gold: #ffd86a;
+    --gold-light: #fff4c2;
+    --gold-dim: #caa34a;
+    --teal: #63e3d0;
+    --violet: #9b8cff;
+    --cyan: #8be8ff;
+    --red: #ff7070;
+    --dark: #0b1016;
+    --text: #f5f8fc;
+    --text-dim: #d2dbe6;
+  }
+  body {
+    background:
+      radial-gradient(circle at top, rgba(255,216,106,0.10), transparent 36%),
+      linear-gradient(180deg, #0f1620 0%, #090d12 100%);
+    font-family: 'Crimson Pro', serif;
+    min-height: 100vh;
+    padding: 22px;
+    color: var(--text);
+  }
+  .page {
+    max-width: 1360px;
+    margin: 0 auto;
+    background: rgba(8,12,18,0.46);
+    border: 3px solid rgba(255,216,106,0.45);
+    border-radius: 18px;
+    padding: 24px 20px 22px;
+    backdrop-filter: blur(8px);
+    box-shadow: 0 16px 60px rgba(0,0,0,0.35);
+  }
+  .topbar { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; margin-bottom: 22px; }
+  .btn {
+    display: inline-flex; text-decoration: none; color: var(--gold-light);
+    border: 1px solid rgba(255,216,106,0.52); background: rgba(10,14,20,0.92);
+    padding: 10px 14px; border-radius: 6px; font-family: 'Cinzel', serif; font-size: 0.74rem;
+    letter-spacing: 0.16em; text-transform: uppercase;
+  }
+  .header { text-align: center; margin-bottom: 18px; }
+  .icon { font-size: 2.8rem; display: block; margin-bottom: 8px; filter: drop-shadow(0 0 16px rgba(255,216,106,0.35)); }
+  .title {
+    font-family: 'Cinzel Decorative', serif; font-size: 2.35rem; color: var(--gold-light);
+    letter-spacing: 0.08em; text-transform: uppercase; display: block;
+    text-shadow: 0 0 24px rgba(255,216,106,0.22);
+  }
+  .subtitle {
+    margin-top: 10px; font-family: 'Cinzel', serif; font-size: 0.78rem;
+    letter-spacing: 0.30em; text-transform: uppercase; color: #b7c3d4;
+  }
+  .note {
+    max-width: 1020px; margin: 0 auto 18px; text-align: center;
+    color: #e3ebf5; line-height: 1.6;
+  }
+  .summary {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 10px;
+    margin-bottom: 14px;
+  }
+  .stat {
+    padding: 12px 14px;
+    border-radius: 10px;
+    background: linear-gradient(160deg, rgba(255,255,255,0.08), rgba(8,12,18,0.92));
+    border: 1px solid rgba(255,216,106,0.22);
+  }
+  .stat-label {
+    display: block;
+    font-family: 'Cinzel', serif;
+    font-size: 0.68rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #b7c3d4;
+    margin-bottom: 6px;
+  }
+  .stat-value {
+    font-family: 'Cinzel Decorative', serif;
+    font-size: 1.05rem;
+    color: var(--gold-light);
+  }
+  .calculator {
+    display: grid;
+    gap: 14px;
+  }
+  .slot-card {
+    border-radius: 14px;
+    border: 1px solid rgba(255,216,106,0.22);
+    background: linear-gradient(160deg, rgba(255,255,255,0.08), rgba(8,12,18,0.92));
+    padding: 16px;
+  }
+  .slot-head {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    flex-wrap: wrap;
+    align-items: center;
+    margin-bottom: 12px;
+  }
+  .slot-title {
+    font-family: 'Cinzel', serif;
+    font-size: 1rem;
+    color: var(--gold-light);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  .slot-tag {
+    font-family: 'Cinzel', serif;
+    font-size: 0.68rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: #b7c3d4;
+  }
+  .controls {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 10px;
+  }
+  .field {
+    display: grid;
+    gap: 6px;
+  }
+  .field label {
+    font-family: 'Cinzel', serif;
+    font-size: 0.68rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: #b7c3d4;
+  }
+  select, input {
+    width: 100%;
+    padding: 10px 12px;
+    border-radius: 8px;
+    border: 1px solid rgba(255,216,106,0.24);
+    background: rgba(5,8,12,0.9);
+    color: var(--text);
+    font-family: 'Crimson Pro', serif;
+    font-size: 0.98rem;
+    outline: none;
+  }
+  .cost-line {
+    margin-top: 12px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    align-items: center;
+  }
+  .chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 7px 10px;
+    border-radius: 999px;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,216,106,0.18);
+    font-size: 0.9rem;
+    color: #f5f8fc;
+  }
+  .chip strong { color: var(--gold-light); }
+  .warn {
+    margin-top: 10px;
+    color: #ffd6d6;
+    font-size: 0.92rem;
+    display: none;
+  }
+  .note-box {
+    margin-top: 14px;
+    border: 1px dashed rgba(139,232,255,0.32);
+    border-radius: 12px;
+    padding: 14px;
+    background: rgba(139,232,255,0.05);
+    color: #d7e2ef;
+    line-height: 1.6;
+  }
+  .footer {
+    margin-top: 18px;
+    text-align: center;
+    color: #b7c3d4;
+    font-family: 'Cinzel', serif;
+    font-size: 0.62rem;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+  }
+  @media (max-width: 900px) {
+    .summary, .controls { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 700px) {
+    body { padding: 16px; }
+    .page { padding: 20px 14px 18px; }
+    .title { font-size: 1.75rem; }
+  }
+</style>
+</head>
+<body>
+  <div class="page">
+    <div class="topbar">
+      <a class="btn" href="../index.html">⬅ Inicio</a>
+      <a class="btn" href="index.html">🏰 Castillos</a>
+      <a class="btn" href="../castles_system_overview.html">📜 Reglas</a>
+    </div>
+
+    <header class="header">
+      <span class="icon">🧮</span>
+      <span class="title">Calculadora de Castillos</span>
+      <div class="subtitle">Slots • niveles • costos • límites</div>
+    </header>
+
+    <p class="note">Selecciona qué castillos quieres subir y hasta qué nivel. La calculadora usa los costos conocidos del sistema y respeta el límite de 5 slots, 1 utility fijo y máximo 3 slots en nivel 5.</p>
+
+    <div class="summary">
+      <div class="stat"><span class="stat-label">Total Diamonds</span><span class="stat-value" id="totalDiamonds">0</span></div>
+      <div class="stat"><span class="stat-label">Total Admiral Coins</span><span class="stat-value" id="totalCoins">0</span></div>
+      <div class="stat"><span class="stat-label">Total Gold</span><span class="stat-value" id="totalGold">0</span></div>
+      <div class="stat"><span class="stat-label">Costo estimado</span><span class="stat-value" id="totalLabel">0</span></div>
+    </div>
+
+    <div class="calculator" id="slots"></div>
+
+    <div class="note-box">
+      <strong>Reglas aplicadas:</strong> 5 slots totales, 1 slot reservado para Utility Castle, 4 slots flexibles, hasta 3 castles nivel 5 al mismo tiempo. Los Utility Castles se calculan como una versión ligeramente más barata del mismo nivel de combate.
+    </div>
+
+    <div class="footer">Wiki Seefight 3D • Calculadora de Castillos</div>
+  </div>
+
+  <script>
+    const combatCosts = {
+      1: { diamonds: 75000, coins: 0, gold: 0 },
+      2: { diamonds: 150000, coins: 0, gold: 0 },
+      3: { diamonds: 350000, coins: 0, gold: 0 },
+      4: { diamonds: 800000, coins: 350, gold: 100000000 },
+      5: { diamonds: 1300000, coins: 750, gold: 250000000 },
+    };
+
+    const utilityDiscount = 0.9;
+    const slotDefs = [
+      { name: 'Utility fijo', fixedType: 'utility', tag: '1 slot reservado' },
+      { name: 'Slot flexible 1', fixedType: null, tag: 'Slot libre' },
+      { name: 'Slot flexible 2', fixedType: null, tag: 'Slot libre' },
+      { name: 'Slot flexible 3', fixedType: null, tag: 'Slot libre' },
+      { name: 'Slot flexible 4', fixedType: null, tag: 'Slot libre' },
+    ];
+
+    const slotsRoot = document.getElementById('slots');
+    slotsRoot.innerHTML = slotDefs.map((slot, index) => `
+      <section class="slot-card" data-slot="${index}">
+        <div class="slot-head">
+          <div class="slot-title">${slot.name}</div>
+          <div class="slot-tag">${slot.tag}</div>
+        </div>
+        <div class="controls">
+          <div class="field">
+            <label>Tipo</label>
+            <select class="type-select" ${slot.fixedType ? 'disabled' : ''}>
+              <option value="combat">Combat Castle</option>
+              <option value="utility" ${slot.fixedType === 'utility' ? 'selected' : ''}>Utility Castle</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>Nivel objetivo</label>
+            <select class="level-select">
+              <option value="0">Sin subir</option>
+              <option value="1">Nivel 1</option>
+              <option value="2">Nivel 2</option>
+              <option value="3">Nivel 3</option>
+              <option value="4">Nivel 4</option>
+              <option value="5">Nivel 5</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>Costo del slot</label>
+            <input class="cost-view" type="text" readonly value="0" />
+          </div>
+        </div>
+        <div class="cost-line">
+          <span class="chip"><strong>Diamonds:</strong> <span class="diamond-view">0</span></span>
+          <span class="chip"><strong>Coins:</strong> <span class="coins-view">0</span></span>
+          <span class="chip"><strong>Gold:</strong> <span class="gold-view">0</span></span>
+        </div>
+        <div class="warn">Límite de 3 slots en nivel 5 alcanzado.</div>
+      </section>
+    `).join('');
+
+    const fmt = (n) => new Intl.NumberFormat('en-US').format(n);
+    const slots = [...document.querySelectorAll('.slot-card')];
+
+    function getCost(type, level) {
+      if (!level) return { diamonds: 0, coins: 0, gold: 0 };
+      const base = combatCosts[level];
+      if (type === 'utility') {
+        return {
+          diamonds: Math.round(base.diamonds * utilityDiscount),
+          coins: base.coins,
+          gold: base.gold,
+        };
+      }
+      return base;
+    }
+
+    function render() {
+      let totalDiamonds = 0;
+      let totalCoins = 0;
+      let totalGold = 0;
+      let lvl5Count = 0;
+
+      const selected = slots.map((slot) => {
+        const type = slot.querySelector('.type-select').value;
+        const level = Number(slot.querySelector('.level-select').value);
+        return { slot, type, level };
+      });
+
+      selected.forEach(({ slot, type, level }) => {
+        const cost = getCost(type, level);
+        slot.querySelector('.diamond-view').textContent = fmt(cost.diamonds);
+        slot.querySelector('.coins-view').textContent = fmt(cost.coins);
+        slot.querySelector('.gold-view').textContent = fmt(cost.gold);
+        slot.querySelector('.cost-view').value = `${fmt(cost.diamonds)} D | ${fmt(cost.coins)} C | ${fmt(cost.gold)} G`;
+        totalDiamonds += cost.diamonds;
+        totalCoins += cost.coins;
+        totalGold += cost.gold;
+        if (level === 5) lvl5Count += 1;
+      });
+
+      document.getElementById('totalDiamonds').textContent = fmt(totalDiamonds);
+      document.getElementById('totalCoins').textContent = fmt(totalCoins);
+      document.getElementById('totalGold').textContent = fmt(totalGold);
+      document.getElementById('totalLabel').textContent = `${fmt(totalDiamonds)} D`;
+
+      slots.forEach((slot) => slot.querySelector('.warn').style.display = 'none');
+      if (lvl5Count > 3) {
+        const last = [...selected].reverse().find(({ level }) => level === 5)?.slot;
+        if (last) last.querySelector('.warn').style.display = 'block';
+      }
+    }
+
+    slots.forEach((slot) => {
+      slot.querySelector('.type-select').addEventListener('change', render);
+      slot.querySelector('.level-select').addEventListener('change', render);
+    });
+
+    render();
+  </script>
+</body>
+</html>
