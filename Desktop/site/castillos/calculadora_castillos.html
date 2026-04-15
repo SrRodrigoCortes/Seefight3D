@@ -62,9 +62,52 @@
   }
   .summary {
     display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-template-columns: minmax(0, 1fr) 320px;
     gap: 10px;
     margin-bottom: 14px;
+    align-items: start;
+  }
+  .summary-stats {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 10px;
+  }
+  .benefits-panel {
+    border-radius: 12px;
+    border: 1px solid rgba(139,232,255,0.24);
+    background: linear-gradient(160deg, rgba(139,232,255,0.07), rgba(8,12,18,0.92));
+    padding: 12px;
+  }
+  .benefits-title {
+    font-family: 'Cinzel', serif;
+    font-size: 0.72rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: #8be8ff;
+    margin-bottom: 8px;
+  }
+  .benefits-list {
+    display: grid;
+    gap: 8px;
+    max-height: 220px;
+    overflow: auto;
+    padding-right: 4px;
+  }
+  .benefit-item {
+    padding: 8px 10px;
+    border-radius: 8px;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.08);
+    font-size: 0.9rem;
+    line-height: 1.45;
+    color: #e3ebf5;
+  }
+  .benefit-item strong {
+    color: var(--gold-light);
+  }
+  .benefit-empty {
+    color: #b7c3d4;
+    font-size: 0.92rem;
   }
   .stat {
     padding: 12px 14px;
@@ -176,6 +219,12 @@
     font-size: 0.9rem;
     line-height: 1.45;
   }
+  .variants-view {
+    margin-top: 8px;
+    color: #b7c3d4;
+    font-size: 0.88rem;
+    line-height: 1.45;
+  }
   .selected-castle {
     margin-top: 8px;
     color: #8be8ff;
@@ -200,7 +249,7 @@
     text-transform: uppercase;
   }
   @media (max-width: 900px) {
-    .summary, .controls { grid-template-columns: 1fr; }
+    .summary, .summary-stats, .controls { grid-template-columns: 1fr; }
   }
   @media (max-width: 700px) {
     body { padding: 16px; }
@@ -220,22 +269,28 @@
     <header class="header">
       <span class="icon">🧮</span>
       <span class="title">Calculadora de Castillos</span>
-      <div class="subtitle">Castillo PVP • Castillo de utilidad • costos acumulados</div>
+      <div class="subtitle">Castillo PVP • Castillo PVE • costos acumulados</div>
     </header>
 
-    <p class="note">Selecciona qué castillos quieres subir y hasta qué nivel. El costo se suma nivel por nivel: si eliges nivel 5, se acumulan los costos de nivel 1, 2, 3, 4 y 5. Se respeta el límite de 5 slots, 1 Castillo de utilidad fijo y máximo 3 slots en nivel 5.</p>
+    <p class="note">Selecciona qué castillos quieres subir y hasta qué nivel. El costo se suma nivel por nivel: si eliges nivel 5, se acumulan los costos de nivel 1, 2, 3, 4 y 5. Se respeta el límite de 5 slots, 1 Castillo PVE fijo y máximo 3 slots en nivel 5.</p>
 
     <div class="summary">
-      <div class="stat"><span class="stat-label">Total diamantes</span><span class="stat-value" id="totalDiamonds">0</span></div>
-      <div class="stat"><span class="stat-label">Total monedas Admiral</span><span class="stat-value" id="totalCoins">0</span></div>
-      <div class="stat"><span class="stat-label">Total oro</span><span class="stat-value" id="totalGold">0</span></div>
-      <div class="stat"><span class="stat-label">Costo total</span><span class="stat-value" id="totalLabel">0</span></div>
+      <div class="summary-stats">
+        <div class="stat"><span class="stat-label">Total diamantes</span><span class="stat-value" id="totalDiamonds">0</span></div>
+        <div class="stat"><span class="stat-label">Total monedas Admiral</span><span class="stat-value" id="totalCoins">0</span></div>
+        <div class="stat"><span class="stat-label">Total oro</span><span class="stat-value" id="totalGold">0</span></div>
+        <div class="stat"><span class="stat-label">Costo total</span><span class="stat-value" id="totalLabel">0</span></div>
+      </div>
+      <aside class="benefits-panel">
+        <div class="benefits-title">Beneficios adquiridos</div>
+        <div class="benefits-list" id="benefitsList"></div>
+      </aside>
     </div>
 
     <div class="calculator" id="slots"></div>
 
     <div class="note-box">
-      <strong>Reglas aplicadas:</strong> 5 slots totales, 1 slot reservado para Castillo de utilidad, 4 slots flexibles, hasta 3 Castillos PVP o de utilidad en nivel 5 al mismo tiempo. El Castillo de utilidad se calcula con un coste ligeramente menor en cada nivel.
+      <strong>Reglas aplicadas:</strong> 5 slots totales, 1 slot reservado para Castillo PVE, 4 slots flexibles, hasta 3 Castillos PVP o PVE en nivel 5 al mismo tiempo. El Castillo PVE se calcula con un coste ligeramente menor en cada nivel.
     </div>
 
     <div class="footer">Wiki Seefight 3D • Calculadora de Castillos</div>
@@ -252,12 +307,33 @@
 
     const descuentoUtilidad = 0.9;
     const slotDefs = [
-      { name: 'Castillo de utilidad fijo', fixedType: 'utility', tag: '1 slot reservado' },
+      { name: 'Castillo PVE fijo', fixedType: 'utility', tag: '1 slot reservado' },
       { name: 'Castillo flexible 1', fixedType: null, tag: 'Slot libre' },
       { name: 'Castillo flexible 2', fixedType: null, tag: 'Slot libre' },
       { name: 'Castillo flexible 3', fixedType: null, tag: 'Slot libre' },
       { name: 'Castillo flexible 4', fixedType: null, tag: 'Slot libre' },
     ];
+
+    const castleCatalog = {
+      combat: [
+        { value: 'pvp_damage', label: 'Cuerno de Polvora - Daño', benefit: 'Daño de Barco PvE (NPC & Torres) & PvP', levels: ['+1%', '+2%', '+3%', '+4%', '+5%'] },
+        { value: 'pvp_war', label: 'Experto en War - Daño PvP', benefit: 'Daño PvP', levels: ['+1%', '+2%', '+3%', '+4%', '+6%'] },
+        { value: 'pvp_crit', label: 'Libro de Combate - Crítico', benefit: 'Probabilidad de Golpe Crítico', levels: ['+2%', '+4%', '+6%', '+8%', '+12%'] },
+        { value: 'pvp_crit_damage', label: 'Lluvia de Metralla - Daño crítico', benefit: 'Daño Crítico', levels: ['+2%', '+4%', '+6%', '+9%', '+12%'] },
+        { value: 'pvp_hp', label: 'Casco Reforzado - Vida', benefit: 'Puntos de Vida del Barco', levels: ['+2k', '+6k', '+10k', '+15k', '+21k'] },
+        { value: 'pvp_reduce', label: 'Casco Adamantina - Reducción', benefit: 'Reducción de Daño', levels: ['+2%', '+4%', '+6%', '+8%', '+12%'] },
+        { value: 'pvp_hit', label: 'Cuerno de Polvora - Acierto', benefit: 'Probabilidad de Acierto', levels: ['+1%', '+2%', '+3%', '+4%', '+7%'] },
+        { value: 'pvp_evasion', label: 'Mejora Placas - Evasión', benefit: 'Evasión de Críticos', levels: ['+10%', '+15%', '+20%', '+25%', '+35%'] },
+      ],
+      utility: [
+        { value: 'pve_elite', label: 'Mejora cambio puntos Elite', benefit: 'Ganancia de Puntos de Élite', levels: ['+5%', '+10%', '+15%', '+20%', '+25%'] },
+        { value: 'pve_rewards', label: 'Bonificacion Recompensas', benefit: 'Recompensas NPC / Cofres y Diamantes', levels: ['+4%', '+6%', '+8%', '+12%', '+16%'] },
+        { value: 'pve_xp', label: 'Bonificacion Experiencia', benefit: 'Ganancia de XP', levels: ['+3%', '+4%', '+5%', '+6%', '+10%'] },
+        { value: 'pve_damage', label: 'Daño PvE (NPC & Torres)', benefit: 'Daño PvE', levels: ['+2%', '+3%', '+4%', '+5%', '+7%'] },
+        { value: 'pve_speed', label: 'Velocidad Rayo McQueen', benefit: 'Velocidad del Barco', levels: ['+0.2', '+0.4', '+0.6', '+0.8', '+1.0'] },
+        { value: 'pve_repair', label: 'Capaz De reparacion', benefit: 'Eficiencia de Reparación', levels: ['+4%', '+8%', '+12%', '+16%', '+25%'] },
+      ],
+    };
 
     const slotsRoot = document.getElementById('slots');
     slotsRoot.innerHTML = slotDefs.map((slot, index) => `
@@ -271,11 +347,11 @@
             <label>Tipo de castillo</label>
             <select class="type-select" ${slot.fixedType ? 'disabled' : ''}>
               <option value="combat">Castillo PVP</option>
-              <option value="utility" ${slot.fixedType === 'utility' ? 'selected' : ''}>Castillo de utilidad</option>
+              <option value="utility" ${slot.fixedType === 'utility' ? 'selected' : ''}>Castillo PVE</option>
             </select>
           </div>
           <div class="field">
-            <label>Castillo específico</label>
+            <label>Variante del castillo</label>
             <select class="castle-select"></select>
           </div>
           <div class="field">
@@ -300,6 +376,7 @@
           <span class="chip"><strong>Oro:</strong> <span class="gold-view">0</span></span>
         </div>
         <div class="selected-castle"></div>
+        <div class="variants-view"></div>
         <div class="breakdown"></div>
         <div class="warn">Límite de 3 slots en nivel 5 alcanzado.</div>
       </section>
@@ -307,34 +384,21 @@
 
     const fmt = (n) => new Intl.NumberFormat('en-US').format(n);
     const slots = [...document.querySelectorAll('.slot-card')];
-    const castillosPvp = [
-      'Cuerno de Polvora',
-      'Experto en War',
-      'Libro de Combate',
-      'Lluvia de Metralla',
-      'Casco Reforzado',
-      'Casco Adamantina',
-      'Cuerno de Polvora (Acierto)',
-      'Mejora Placas',
-    ];
-    const castillosUtilidad = [
-      'Bonificacion Recompensas',
-      'Bonificacion Experiencia',
-      'Daño PvE (NPC & Torres)',
-      'Velocidad Rayo McQueen',
-      'Capaz De reparacion',
-    ];
 
     function getCastleOptions(type) {
-      return type === 'utility' ? castillosUtilidad : castillosPvp;
+      return castleCatalog[type] || [];
     }
 
     function setCastleOptions(slot, type, selectedValue = null) {
       const select = slot.querySelector('.castle-select');
       const options = getCastleOptions(type);
-      const keep = selectedValue || select.value || options[0];
-      select.innerHTML = options.map((name) => `<option value="${name}">${name}</option>`).join('');
-      select.value = options.includes(keep) ? keep : options[0];
+      const keep = selectedValue || select.value || options[0]?.value || '';
+      select.innerHTML = [`<optgroup label="Variantes ${type === 'combat' ? 'PVP' : 'PVE'}">`, ...options.map((item) => `<option value="${item.value}">${item.label}</option>`), '</optgroup>'].join('');
+      select.value = options.some((item) => item.value === keep) ? keep : (options[0]?.value || '');
+    }
+
+    function getCastleData(type, value) {
+      return getCastleOptions(type).find((item) => item.value === value) || getCastleOptions(type)[0];
     }
 
     function getCost(type, level) {
@@ -359,24 +423,28 @@
       let totalCoins = 0;
       let totalGold = 0;
       let lvl5Count = 0;
+      const benefitLines = [];
 
       const selected = slots.map((slot) => {
         const type = slot.querySelector('.type-select').value;
+        const castle = getCastleData(type, slot.querySelector('.castle-select').value);
         const level = Number(slot.querySelector('.level-select').value);
-        return { slot, type, level };
+        return { slot, type, castle, level };
       });
 
-      selected.forEach(({ slot, type, level }) => {
-        const castleName = slot.querySelector('.castle-select').value;
+      selected.forEach(({ slot, type, castle, level }) => {
         const cost = getCost(type, level);
         slot.querySelector('.diamond-view').textContent = fmt(cost.diamonds);
         slot.querySelector('.coins-view').textContent = fmt(cost.coins);
         slot.querySelector('.gold-view').textContent = fmt(cost.gold);
         slot.querySelector('.cost-view').value = `${fmt(cost.diamonds)} D | ${fmt(cost.coins)} M | ${fmt(cost.gold)} O`;
-        slot.querySelector('.selected-castle').textContent = `Castillo elegido: ${castleName}`;
+        slot.querySelector('.selected-castle').textContent = `Castillo elegido: ${castle.label}`;
+        slot.querySelector('.variants-view').textContent = `Variantes ${type === 'combat' ? 'PVP' : 'PVE'} disponibles: ${getCastleOptions(type).map((item) => item.label).join(' • ')}`;
         slot.querySelector('.breakdown').textContent = level
           ? `Desglose acumulado: ${Array.from({ length: level }, (_, i) => `nivel ${i + 1}`).join(' + ')}`
           : 'Sin niveles seleccionados.';
+        const benefitValue = level ? castle.levels[level - 1] : 'Sin beneficio aún';
+        benefitLines.push(`<div class="benefit-item"><strong>${slot.dataset.slot ? `Slot ${Number(slot.dataset.slot) + 1}` : 'Slot'}:</strong> ${castle.label}<br>${castle.benefit}<br>Nivel ${level || 0}: ${benefitValue}</div>`);
         totalDiamonds += cost.diamonds;
         totalCoins += cost.coins;
         totalGold += cost.gold;
@@ -387,6 +455,7 @@
       document.getElementById('totalCoins').textContent = fmt(totalCoins);
       document.getElementById('totalGold').textContent = fmt(totalGold);
       document.getElementById('totalLabel').textContent = `${fmt(totalDiamonds)} D | ${fmt(totalCoins)} M | ${fmt(totalGold)} O`;
+      document.getElementById('benefitsList').innerHTML = benefitLines.join('') || '<div class="benefit-empty">Selecciona un castillo y un nivel para ver los beneficios aquí.</div>';
 
       slots.forEach((slot) => slot.querySelector('.warn').style.display = 'none');
       if (lvl5Count > 3) {
