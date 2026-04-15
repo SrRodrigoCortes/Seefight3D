@@ -120,7 +120,7 @@
   }
   .controls {
     display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-columns: repeat(4, minmax(0, 1fr));
     gap: 10px;
   }
   .field {
@@ -175,6 +175,11 @@
     color: #b7c3d4;
     font-size: 0.9rem;
     line-height: 1.45;
+  }
+  .selected-castle {
+    margin-top: 8px;
+    color: #8be8ff;
+    font-size: 0.92rem;
   }
   .note-box {
     margin-top: 14px;
@@ -270,6 +275,10 @@
             </select>
           </div>
           <div class="field">
+            <label>Castillo específico</label>
+            <select class="castle-select"></select>
+          </div>
+          <div class="field">
             <label>Nivel a subir</label>
             <select class="level-select">
               <option value="0">Sin subir</option>
@@ -290,6 +299,7 @@
           <span class="chip"><strong>Monedas Admiral:</strong> <span class="coins-view">0</span></span>
           <span class="chip"><strong>Oro:</strong> <span class="gold-view">0</span></span>
         </div>
+        <div class="selected-castle"></div>
         <div class="breakdown"></div>
         <div class="warn">Límite de 3 slots en nivel 5 alcanzado.</div>
       </section>
@@ -297,6 +307,35 @@
 
     const fmt = (n) => new Intl.NumberFormat('en-US').format(n);
     const slots = [...document.querySelectorAll('.slot-card')];
+    const castillosPvp = [
+      'Cuerno de Polvora',
+      'Experto en War',
+      'Libro de Combate',
+      'Lluvia de Metralla',
+      'Casco Reforzado',
+      'Casco Adamantina',
+      'Cuerno de Polvora (Acierto)',
+      'Mejora Placas',
+    ];
+    const castillosUtilidad = [
+      'Bonificacion Recompensas',
+      'Bonificacion Experiencia',
+      'Daño PvE (NPC & Torres)',
+      'Velocidad Rayo McQueen',
+      'Capaz De reparacion',
+    ];
+
+    function getCastleOptions(type) {
+      return type === 'utility' ? castillosUtilidad : castillosPvp;
+    }
+
+    function setCastleOptions(slot, type, selectedValue = null) {
+      const select = slot.querySelector('.castle-select');
+      const options = getCastleOptions(type);
+      const keep = selectedValue || select.value || options[0];
+      select.innerHTML = options.map((name) => `<option value="${name}">${name}</option>`).join('');
+      select.value = options.includes(keep) ? keep : options[0];
+    }
 
     function getCost(type, level) {
       if (!level) return { diamonds: 0, coins: 0, gold: 0 };
@@ -328,11 +367,13 @@
       });
 
       selected.forEach(({ slot, type, level }) => {
+        const castleName = slot.querySelector('.castle-select').value;
         const cost = getCost(type, level);
         slot.querySelector('.diamond-view').textContent = fmt(cost.diamonds);
         slot.querySelector('.coins-view').textContent = fmt(cost.coins);
         slot.querySelector('.gold-view').textContent = fmt(cost.gold);
         slot.querySelector('.cost-view').value = `${fmt(cost.diamonds)} D | ${fmt(cost.coins)} M | ${fmt(cost.gold)} O`;
+        slot.querySelector('.selected-castle').textContent = `Castillo elegido: ${castleName}`;
         slot.querySelector('.breakdown').textContent = level
           ? `Desglose acumulado: ${Array.from({ length: level }, (_, i) => `nivel ${i + 1}`).join(' + ')}`
           : 'Sin niveles seleccionados.';
@@ -345,17 +386,30 @@
       document.getElementById('totalDiamonds').textContent = fmt(totalDiamonds);
       document.getElementById('totalCoins').textContent = fmt(totalCoins);
       document.getElementById('totalGold').textContent = fmt(totalGold);
-      document.getElementById('totalLabel').textContent = `${fmt(totalDiamonds)} D`;
+      document.getElementById('totalLabel').textContent = `${fmt(totalDiamonds)} D | ${fmt(totalCoins)} M | ${fmt(totalGold)} O`;
 
       slots.forEach((slot) => slot.querySelector('.warn').style.display = 'none');
       if (lvl5Count > 3) {
-        const last = [...selected].reverse().find(({ level }) => level === 5)?.slot;
-        if (last) last.querySelector('.warn').style.display = 'block';
+        let shown = 0;
+        selected.forEach(({ slot, level }) => {
+          if (level === 5) {
+            shown += 1;
+            if (shown > 3) slot.querySelector('.warn').style.display = 'block';
+          }
+        });
       }
     }
 
     slots.forEach((slot) => {
-      slot.querySelector('.type-select').addEventListener('change', render);
+      const typeSelect = slot.querySelector('.type-select');
+      const castleSelect = slot.querySelector('.castle-select');
+      setCastleOptions(slot, typeSelect.value);
+
+      typeSelect.addEventListener('change', () => {
+        setCastleOptions(slot, typeSelect.value);
+        render();
+      });
+      castleSelect.addEventListener('change', render);
       slot.querySelector('.level-select').addEventListener('change', render);
     });
 
