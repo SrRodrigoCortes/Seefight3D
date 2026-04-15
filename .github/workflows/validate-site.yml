@@ -1,0 +1,57 @@
+name: Validate Site Links
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  validate-links:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Validate local HTML links
+        shell: pwsh
+        run: |
+          $root = Join-Path $PWD "Desktop/site"
+          if (-not (Test-Path $root)) {
+            Write-Error "Missing site root: $root"
+          }
+
+          $missing = New-Object System.Collections.Generic.List[string]
+
+          Get-ChildItem -Path $root -Recurse -Filter *.html | ForEach-Object {
+            $file = $_.FullName
+            $dir = $_.DirectoryName
+            $content = Get-Content -Path $file -Raw
+
+            foreach ($m in [regex]::Matches($content, 'href="([^"]+)"')) {
+              $href = $m.Groups[1].Value
+              if ($href -match '^(https?:|mailto:|javascript:|#)') { continue }
+              if ($href.StartsWith('/')) { continue }
+              $target = [System.IO.Path]::GetFullPath((Join-Path $dir $href))
+              if (-not (Test-Path -Path $target)) {
+                $missing.Add("$file -> href:$href")
+              }
+            }
+
+            foreach ($m in [regex]::Matches($content, 'src="([^"]+)"')) {
+              $src = $m.Groups[1].Value
+              if ($src -match '^(https?:|data:|//)') { continue }
+              if ($src.StartsWith('/')) { continue }
+              $target = [System.IO.Path]::GetFullPath((Join-Path $dir $src))
+              if (-not (Test-Path -Path $target)) {
+                $missing.Add("$file -> src:$src")
+              }
+            }
+          }
+
+          if ($missing.Count -gt 0) {
+            $missing | ForEach-Object { Write-Error $_ }
+            Write-Error "Site validation failed: broken local links detected."
+          } else {
+            Write-Host "Site validation passed: no broken local links found."
+          }
