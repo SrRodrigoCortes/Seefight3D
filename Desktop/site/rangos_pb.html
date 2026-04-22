@@ -7,15 +7,16 @@
 <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700;900&family=Cinzel:wght@400;600;700&family=Crimson+Pro:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
   :root {
     --gold: #ffd86a;
     --gold-light: #fff4c2;
-    --gold-dim: #caa34a;
     --violet: #9b8cff;
+    --cyan: #8be8ff;
     --dark: #0b1016;
     --text: #f5f8fc;
-    --text-dim: #d2dbe6;
   }
+
   body {
     background:
       radial-gradient(circle at top, rgba(255,216,106,0.10), transparent 36%),
@@ -25,15 +26,156 @@
     padding: 22px;
     color: var(--text);
   }
-  .page { max-width: 980px; margin: 0 auto; background: rgba(8,12,18,0.44); border: 3px solid rgba(255,216,106,0.45); border-radius: 18px; padding: 24px 20px; backdrop-filter: blur(8px); box-shadow: 0 16px 60px rgba(0,0,0,0.35); }
-  .topbar { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; margin-bottom: 22px; }
-  .btn { display: inline-flex; text-decoration: none; color: var(--gold-light); border: 1px solid rgba(255,216,106,0.52); background: rgba(10,14,20,0.9); padding: 10px 14px; border-radius: 6px; font-family: 'Cinzel', serif; font-size: 0.74rem; letter-spacing: 0.16em; text-transform: uppercase; }
-  .header { text-align: center; margin-bottom: 24px; }
-  .icon { font-size: 2.6rem; display: block; margin-bottom: 8px; }
-  .title { font-family: 'Cinzel Decorative', serif; font-size: 2.2rem; color: var(--gold-light); letter-spacing: 0.08em; text-transform: uppercase; display: block; text-shadow: 0 0 22px rgba(255,216,106,0.22); }
-  .note { color: #e3ebf5; text-align: center; line-height: 1.6; }
-  .blank { margin-top: 20px; min-height: 420px; border: 1px dashed rgba(155,140,255,0.34); border-radius: 10px; background: rgba(255,255,255,0.06); }
-  @media (max-width: 700px) { body { padding: 16px; } .title { font-size: 1.7rem; } }
+
+  .page {
+    max-width: 1080px;
+    margin: 0 auto;
+    background: rgba(8,12,18,0.44);
+    border: 3px solid rgba(255,216,106,0.45);
+    border-radius: 18px;
+    padding: 24px 20px;
+    backdrop-filter: blur(8px);
+    box-shadow: 0 16px 60px rgba(0,0,0,0.35);
+  }
+
+  .topbar {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-bottom: 22px;
+  }
+
+  .btn {
+    display: inline-flex;
+    text-decoration: none;
+    color: var(--gold-light);
+    border: 1px solid rgba(255,216,106,0.52);
+    background: rgba(10,14,20,0.9);
+    padding: 10px 14px;
+    border-radius: 6px;
+    font-family: 'Cinzel', serif;
+    font-size: 0.74rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+  }
+
+  .header {
+    text-align: center;
+    margin-bottom: 16px;
+  }
+
+  .icon {
+    font-size: 2.6rem;
+    display: block;
+    margin-bottom: 8px;
+  }
+
+  .title {
+    font-family: 'Cinzel Decorative', serif;
+    font-size: 2.2rem;
+    color: var(--gold-light);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    display: block;
+    text-shadow: 0 0 22px rgba(255,216,106,0.22);
+  }
+
+  .note {
+    color: #e3ebf5;
+    text-align: center;
+    line-height: 1.6;
+    margin-bottom: 20px;
+  }
+
+  .rank-board {
+    border: 1px solid rgba(139,232,255,0.30);
+    border-radius: 12px;
+    overflow: hidden;
+    background: linear-gradient(180deg, rgba(255,255,255,0.05) 0%, rgba(8,12,18,0.76) 100%);
+  }
+
+  .rank-head,
+  .rank-row {
+    display: grid;
+    grid-template-columns: 100px 92px 1fr 190px;
+    gap: 10px;
+    align-items: center;
+    padding: 10px 14px;
+  }
+
+  .rank-head {
+    font-family: 'Cinzel', serif;
+    font-size: 0.7rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--gold-light);
+    background: rgba(255,216,106,0.08);
+    border-bottom: 1px solid rgba(255,216,106,0.28);
+  }
+
+  .rank-row {
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+  }
+
+  .rank-row:last-child {
+    border-bottom: 0;
+  }
+
+  .rank-num {
+    font-family: 'Cinzel', serif;
+    color: var(--gold-light);
+    letter-spacing: 0.06em;
+  }
+
+  .rank-badge {
+    width: 72px;
+    height: 72px;
+    object-fit: contain;
+    display: block;
+    filter: drop-shadow(0 0 10px rgba(139,232,255,0.22));
+  }
+
+  .rank-name {
+    font-size: 1rem;
+    color: #ecf2fb;
+    font-weight: 600;
+  }
+
+  .rank-req {
+    font-family: 'Cinzel', serif;
+    font-size: 0.8rem;
+    color: #d6e9ff;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    text-align: right;
+  }
+
+  @media (max-width: 860px) {
+    .rank-head {
+      display: none;
+    }
+
+    .rank-row {
+      grid-template-columns: 1fr;
+      gap: 6px;
+      padding: 14px;
+    }
+
+    .rank-badge {
+      width: 64px;
+      height: 64px;
+    }
+
+    .rank-req {
+      text-align: left;
+    }
+  }
+
+  @media (max-width: 700px) {
+    body { padding: 16px; }
+    .title { font-size: 1.7rem; }
+  }
 </style>
 </head>
 <body>
@@ -42,12 +184,118 @@
       <a class="btn" href="index.html">⬅ Inicio</a>
       <a class="btn" href="castillos/index.html">🏰 Castillos</a>
     </div>
+
     <header class="header">
       <span class="icon">⚔</span>
       <span class="title">Rangos PB</span>
     </header>
-    <p class="note">Espacio reservado para tu tabla de rangos PB.</p>
-    <div class="blank"></div>
+
+    <p class="note">Tabla de rangos con su insignia correspondiente y requisitos PVP cargados del rango 1 al 16.</p>
+
+    <section class="rank-board">
+      <div class="rank-head">
+        <span>Rango</span>
+        <span>Insignia</span>
+        <span>Nombre</span>
+        <span>Requisito PVP</span>
+      </div>
+      <div id="rankRows"></div>
+    </section>
   </div>
+
+  <script>
+    (function () {
+      var rankFiles = [
+        "01_Spineless_Minnow.png",
+        "02_Captain_Chum.png",
+        "03_Deckmaid.png",
+        "04_Powder_Monkey.png",
+        "05_Fuse_Holder.png",
+        "06_Flotsam_Hunter.png",
+        "07_Rogue.png",
+        "08_Daggerblade.png",
+        "09_Guillotine.png",
+        "10_Plunderer.png",
+        "11_Common_Seaman.png",
+        "12_Sailor.png",
+        "13_Gunner.png",
+        "14_Chief_Gunner.png",
+        "15_Junior_Pirate.png",
+        "16_Pirate.png",
+        "17_Buccaneer.png",
+        "18_Sea_Dog.png",
+        "19_Swashbuckler.png",
+        "20_Sea_Mate.png",
+        "21_First_Mate.png",
+        "22_Boatswain.png",
+        "23_Head_Boatswain.png",
+        "24_Second_Helmsman.png",
+        "25_Main_Helmsman.png",
+        "26_Lieutenant.png",
+        "27_Captain_Lieutenant.png",
+        "28_Second_Officer.png",
+        "29_First_Officer.png",
+        "30_Captain_Second_Class.png",
+        "31_Captain_First_Class.png",
+        "32_Captain.png",
+        "33_Lieutenant_Commander.png",
+        "34_Terrifying_Pirate.png",
+        "35_Commodore.png",
+        "36_Commander.png",
+        "37_Rear_Admiral.png",
+        "38_Vice_Admiral.png",
+        "39_Admiral.png",
+        "40_Grand_Admiral.png"
+      ];
+
+      var pvpRequirements = {
+        1: 1500,
+        2: 1900,
+        3: 2500,
+        4: 3500,
+        5: 4600,
+        6: 6000,
+        7: 7200,
+        8: 8500,
+        9: 10000,
+        10: 12500,
+        11: 16000,
+        12: 20500,
+        13: 25200,
+        14: 32200,
+        15: 40500,
+        16: 60000
+      };
+
+      var rows = document.getElementById("rankRows");
+
+      function prettyName(fileName) {
+        return fileName
+          .replace(/^\d+_/, "")
+          .replace(/\.png$/, "")
+          .replace(/_/g, " ");
+      }
+
+      function prettyPoints(points) {
+        return points.toLocaleString("es-ES");
+      }
+
+      rows.innerHTML = rankFiles
+        .map(function (fileName, index) {
+          var rank = index + 1;
+          var req = pvpRequirements[rank];
+          var reqText = req ? ("PVP " + prettyPoints(req)) : "";
+
+          return "" +
+            "<div class=\"rank-row\">" +
+              "<span class=\"rank-num\">Rango " + rank + "</span>" +
+              "<img class=\"rank-badge\" src=\"images/rangos/" + fileName + "\" alt=\"Insignia rango " + rank + "\">" +
+              "<span class=\"rank-name\">" + prettyName(fileName) + "</span>" +
+              "<span class=\"rank-req\">" + reqText + "</span>" +
+            "</div>";
+        })
+        .join("");
+    })();
+  </script>
 </body>
 </html>
