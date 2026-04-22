@@ -272,20 +272,6 @@
     text-transform: uppercase;
   }
 
-  .ts3-panel {
-    margin-top: 20px;
-    padding: 16px;
-    border-radius: 10px;
-    border: 1px solid rgba(99,227,208,0.36);
-    background: linear-gradient(160deg, rgba(99,227,208,0.08) 0%, rgba(8,12,18,0.74) 100%);
-  }
-
-  .ts3-panel object {
-    width: 100%;
-    min-height: 420px;
-    border: 0;
-  }
-
   @media (max-width: 1100px) {
     .cards { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   }
@@ -362,15 +348,14 @@
         <div class="card-text">Accede al apartado principal de eventos y novedades importantes.</div>
         <span class="card-btn">Abrir →</span>
       </a>
-    </div>
 
-    <div class="ts3-panel">
-      <span id="teamspeak_viewer"></span>
-      <script type="text/javascript">
-        (function() {
-          document.getElementById("teamspeak_viewer").innerHTML = '<object type="text/html" data="https://clientes.xgaming.cl//modules/servers/teamspeak3/viewer.php?sid=3642"></object>';
-        })();
-      </script>
+      <a class="card card--blank" href="https://discord.gg/tUrgAKngp" target="_blank" rel="noopener noreferrer">
+        <span class="card-icon">💬</span>
+        <span class="card-title">Discord</span>
+        <span class="card-tag">Servidor oficial</span>
+        <div class="card-text">Unete al Discord del juego para anuncios, soporte y comunidad.</div>
+        <span class="card-btn">Entrar →</span>
+      </a>
     </div>
 
     <footer>Maritin</footer>
